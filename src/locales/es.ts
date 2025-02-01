@@ -13,7 +13,14 @@ export const es: LocaleObject = {
         servers: "Servidores",
         expired: "Este comando ha expirado",
         error: {
-            default: "Algo ha salido mal..."
+            default: "Algo ha salido mal...",
+            insufficientPermissions:
+                "No tienes suficientes permisos para usar este comando!",
+
+            scope: {
+                guild: "Este comando solo puede ser usando en un server!",
+                dm: "Este comando solo puede ser usando en un DM!"
+            }
         }
     },
 

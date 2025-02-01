@@ -1,4 +1,3 @@
-import config from "@/config.js";
 import { locale, localeMap, type LocaleKey } from "@/utils/messages/locale.js";
 
 import {
@@ -7,7 +6,7 @@ import {
     SlashCommandBooleanOption,
     SlashCommandBuilder,
     SlashCommandStringOption,
-    type Permissions
+    type PermissionResolvable
 } from "discord.js";
 
 /* these are not exhaustive or complete, and are made to only meet the
@@ -24,12 +23,13 @@ type StringOption = BaseOption & { type: "string" };
 type BooleanOption = BaseOption & { type: "boolean" };
 type CommandOption = StringOption | BooleanOption;
 
+type ValidContext = InteractionContextType.BotDM | InteractionContextType.Guild;
 interface CommandProperties {
     name: string;
     description: LocaleKey;
     options?: CommandOption[];
-    permissions?: Permissions | bigint;
-    context?: InteractionContextType;
+    permissions?: PermissionResolvable;
+    context?: ValidContext;
     private?: boolean;
 }
 
@@ -40,11 +40,16 @@ export const buildCommand = (
     const data = new SlashCommandBuilder()
         .setName(prop.name)
         .setDescription(locale(prop.description))
-        .setDescriptionLocalizations(localeMap(prop.description))
-        .setDefaultMemberPermissions(prop.permissions);
+        .setDescriptionLocalizations(localeMap(prop.description));
 
-    const command = { data, execute, private: prop.private };
-    if (prop.context) data.setContexts(prop.context);
+    const command = {
+        data,
+        execute,
+        private: prop.private,
+        permissions: prop.permissions,
+        context: prop.context
+    };
+
     if (!prop.options) return command;
 
     prop.options.forEach(opt => {

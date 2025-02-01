@@ -10,8 +10,16 @@ export const en = {
     common: {
         servers: "Servers",
         expired: "This command has expired",
+
         error: {
-            default: "Something went wrong..."
+            default: "Something went wrong...",
+            insufficientPermissions:
+                "You don't have enough permissions to use this command!",
+
+            scope: {
+                guild: "This command can only be used in a server!",
+                dm: "This command can only be used in a DM!"
+            }
         }
     },
 

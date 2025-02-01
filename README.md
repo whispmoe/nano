@@ -8,6 +8,17 @@
 
 ## running
 
+### creating an application
+
+before proceeding, you must have setup an application at the [discord developer portal](https://discord.com/developers/applications)
+
+once you have done so, make sure you have enabled the required **server members
+intent**
+
+![server members intent](images/server_members_intent.png)
+
+### setting up the bot
+
 first of all, clone this repo locally somewhere into your computer, then install
 dependencies by running `pnpm install`
 

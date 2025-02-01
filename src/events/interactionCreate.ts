@@ -6,10 +6,12 @@ import pc from "picocolors";
 
 import {
     Events,
+    InteractionContextType,
     MessageFlags,
     type Interaction,
     type InteractionReplyOptions
 } from "discord.js";
+import { locale } from "@/utils/messages/locale.js";
 
 export default buildEvent(
     { name: Events.InteractionCreate },
@@ -50,13 +52,64 @@ export default buildEvent(
             ]
         };
 
+        const embedScopeGuild = buildEmbed(interaction, {
+            style: "error",
+            description: locale(
+                "common.error.scope.guild",
+                interaction.guildLocale
+            )
+        });
+
+        const embedScopeDM = buildEmbed(interaction, {
+            style: "error",
+            description: locale(
+                "common.error.scope.dm",
+                interaction.guildLocale
+            )
+        });
+
+        const embedInsufficientPermissions = buildEmbed(interaction, {
+            style: "error",
+            description: locale(
+                "common.error.insufficientPermissions",
+                interaction.guildLocale
+            )
+        });
+
+        const userHasPermissions =
+            command.context === InteractionContextType.Guild &&
+            (await interaction.guild?.members.fetch())?.find(
+                member => member.id === interaction.user.id
+            );
+
         try {
-            await command.execute(interaction);
+            switch (command.context) {
+                case InteractionContextType.Guild:
+                    return interaction.reply({
+                        flags: MessageFlags.Ephemeral,
+                        embeds: [embedScopeGuild]
+                    });
+
+                case InteractionContextType.BotDM:
+                    return interaction.reply({
+                        flags: MessageFlags.Ephemeral,
+                        embeds: [embedScopeDM]
+                    });
+            }
+
+            if (userHasPermissions) {
+                await command.execute(interaction);
+            } else {
+                interaction.reply({
+                    flags: MessageFlags.Ephemeral,
+                    embeds: [embedInsufficientPermissions]
+                });
+            }
         } catch (err) {
             error(err);
-            if (interaction.replied || interaction.deferred)
+            if (interaction.replied || interaction.deferred) {
                 await interaction.followUp(messageInteractionError);
-            else await interaction.reply(messageInteractionError);
+            } else await interaction.reply(messageInteractionError);
         }
     }
 );

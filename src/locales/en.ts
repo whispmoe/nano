@@ -91,6 +91,7 @@ export const en = {
     voice: {
         couldNotJoin: "Could not join your voice channel!",
         notInVoice: "You are currently not in a voice channel!",
-        alreadyInVoice: "I am already connected to a voice channel!"
+        alreadyInVoice: "I am already connected to a voice channel!",
+        joined: (channel: string) => `Joined channel ${channel} successfully!`
     }
 };

@@ -86,14 +86,14 @@ export const es: LocaleObject = {
 
         uptime: {
             title: "Tiempo en linea",
-            value: (uptime: string) =>
-                `Nano ha estado despierta por ${f.bold(uptime)}`
+            value: uptime => `Nano ha estado despierta por ${f.bold(uptime)}`
         }
     },
 
     voice: {
         couldNotJoin: "No me he podido unir a tu canal de voz!",
         notInVoice: "No estas dentro de un canal de voz!",
-        alreadyInVoice: "Ya estoy conectada a un canal de voz!"
+        alreadyInVoice: "Ya estoy conectada a un canal de voz!",
+        joined: channel => `Unida al canal ${channel} con éxito!`
     }
 };

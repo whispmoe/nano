@@ -24,6 +24,11 @@ export const en = {
         about: {
             name: "About",
             description: "Get more information about me"
+        },
+
+        music: {
+            name: "Music",
+            description: "Let nano play music for you"
         }
     },
 
@@ -39,7 +44,8 @@ export const en = {
         },
 
         status: { description: "Returns the bot status to ensure its running" },
-        help: { description: "Get information about the available commands" }
+        help: { description: "Get information about the available commands" },
+        join: { description: "Ask Nano to join your current voice channel" }
     },
 
     say: { invalidMessage: "The specified message is not valid" },
@@ -72,5 +78,11 @@ export const en = {
             value: (uptime: string) =>
                 `Nano has been awake for ${f.bold(uptime)}`
         }
+    },
+
+    voice: {
+        couldNotJoin: "Could not join your voice channel!",
+        notInVoice: "You are currently not in a voice channel!",
+        alreadyInVoice: "I am already connected to a voice channel!"
     }
 };

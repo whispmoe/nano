@@ -26,6 +26,11 @@ export const es: LocaleObject = {
         about: {
             name: "Acerca de",
             description: "Obtén mas información sobre mi"
+        },
+
+        music: {
+            name: "Música",
+            description: "Permite a nano reproducir música por ti"
         }
     },
 
@@ -44,7 +49,9 @@ export const es: LocaleObject = {
 
         help: {
             description: "Obtén información sobre los comandos disponibles"
-        }
+        },
+
+        join: { description: "Pide a Nano unirse a tu canal de voz" }
     },
 
     say: { invalidMessage: "El mensaje especificado no es valido" },
@@ -75,5 +82,11 @@ export const es: LocaleObject = {
             value: (uptime: string) =>
                 `Nano ha estado despierta por ${f.bold(uptime)}`
         }
+    },
+
+    voice: {
+        couldNotJoin: "No me he podido unir a tu canal de voz!",
+        notInVoice: "No estas dentro de un canal de voz!",
+        alreadyInVoice: "Ya estoy conectada a un canal de voz!"
     }
 };

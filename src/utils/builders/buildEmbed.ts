@@ -48,13 +48,13 @@ export const buildEmbed = (
             break;
 
         case "error":
-            color = config.embedColors.error;
             if (!prop.title)
                 prop.title =
                     `${config.emojis.sakamotoFear} ` +
                     locale("common.error.default", interaction.guildLocale);
 
-            if (!prop.image) prop.image = { url: config.img.embarassed };
+            if (!prop.image) prop.image = { url: config.img.nervous };
+            color = config.embedColors.error;
             break;
     }
 

@@ -6,6 +6,7 @@ import pc from "picocolors";
 
 import {
     Events,
+    GuildMember,
     InteractionContextType,
     MessageFlags,
     type Interaction,
@@ -76,11 +77,16 @@ export default buildEvent(
             )
         });
 
-        const guildMember = (await interaction.guild?.members.fetch())?.find(
-            member => member.id === interaction.user.id
-        );
+        let member: GuildMember | undefined;
+        const guild = await interaction.guild?.fetch();
+        const guildMembers = await guild?.members.fetch();
 
-        const hasPermissions = guildMember?.permissions.has(
+        if (guildMembers)
+            member = guildMembers.find(
+                member => member.id === interaction.user.id
+            );
+
+        const hasPermissions = member?.permissions.has(
             command.permissions ?? []
         );
 

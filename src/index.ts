@@ -24,7 +24,11 @@ const args = await yargs(hideBin(process.argv))
     .parse();
 
 new Nano(args, config, {
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMembers
+    ]
 });
 
 process.on("SIGINT", function () {

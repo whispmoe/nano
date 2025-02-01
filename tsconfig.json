@@ -1,0 +1,19 @@
+{
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "paths": { "@/*": ["src/*"] },
+
+        "target": "ESNext",
+        "module": "NodeNext",
+
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+
+        "strict": true,
+        "verbatimModuleSyntax": true
+    }
+}

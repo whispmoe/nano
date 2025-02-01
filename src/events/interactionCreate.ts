@@ -76,7 +76,7 @@ export default buildEvent(
             )
         });
 
-        const guildMember = interaction.guild?.members.cache?.find(
+        const guildMember = (await interaction.guild?.members.fetch())?.find(
             member => member.id === interaction.user.id
         );
 

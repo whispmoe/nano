@@ -27,11 +27,16 @@ export const loadCategories = async (client: Client) => {
 
     for (const categoryFolder of categoryFolders) {
         const categoryPath = path.join(config.paths.commands, categoryFolder);
-        const categoryData: Category = (
-            await import(`${categoryPath}/index.ts`)
-        ).default;
 
-        client.categories.set(categoryData.id, categoryData);
-        success(`loaded category ${pc.bold(pc.cyan(categoryData.id))}`);
+        try {
+            const categoryData: Category = (
+                await import(`${categoryPath}/index.ts`)
+            ).default;
+
+            client.categories.set(categoryData.id, categoryData);
+            success(`loaded category ${pc.bold(pc.cyan(categoryData.id))}`);
+        } catch (err) {
+            error("could not load category", pc.bold(pc.cyan(categoryFolder)));
+        }
     }
 };

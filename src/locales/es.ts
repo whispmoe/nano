@@ -18,7 +18,7 @@ export const es: LocaleObject = {
                 "No tienes suficientes permisos para usar este comando!",
 
             scope: {
-                guild: "Este comando solo puede ser usando en un server!",
+                guild: "Este comando solo puede ser usando en un servidor!",
                 dm: "Este comando solo puede ser usando en un DM!"
             }
         }

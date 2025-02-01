@@ -1,7 +1,7 @@
 import { error } from "@/utils/logging.js";
 import { buildEvent } from "@/utils/builders/buildEvent.js";
 import { buildEmbed } from "@/utils/builders/buildEmbed.js";
-
+import { locale } from "@/utils/messages/locale.js";
 import pc from "picocolors";
 
 import {
@@ -11,12 +11,12 @@ import {
     type Interaction,
     type InteractionReplyOptions
 } from "discord.js";
-import { locale } from "@/utils/messages/locale.js";
 
 export default buildEvent(
     { name: Events.InteractionCreate },
     async (interaction: Interaction) => {
         if (!interaction.isChatInputCommand()) return;
+
         const command = interaction.client.commands.get(
             interaction.commandName
         );
@@ -76,35 +76,43 @@ export default buildEvent(
             )
         });
 
-        const userHasPermissions =
-            command.context === InteractionContextType.Guild &&
-            (await interaction.guild?.members.fetch())?.find(
-                member => member.id === interaction.user.id
-            );
+        const guildMember = (await interaction.guild?.members.fetch())?.find(
+            member => member.id === interaction.user.id
+        );
+
+        const hasPermissions = guildMember?.permissions.has(
+            command.permissions ?? []
+        );
+
+        const isDM = interaction.context === InteractionContextType.BotDM;
+        const isGuild = interaction.context === InteractionContextType.Guild;
 
         try {
             switch (command.context) {
                 case InteractionContextType.Guild:
-                    return interaction.reply({
-                        flags: MessageFlags.Ephemeral,
-                        embeds: [embedScopeGuild]
-                    });
+                    if (isDM)
+                        return interaction.reply({
+                            flags: MessageFlags.Ephemeral,
+                            embeds: [embedScopeGuild]
+                        });
+                    break;
 
                 case InteractionContextType.BotDM:
-                    return interaction.reply({
-                        flags: MessageFlags.Ephemeral,
-                        embeds: [embedScopeDM]
-                    });
+                    if (isGuild)
+                        return interaction.reply({
+                            flags: MessageFlags.Ephemeral,
+                            embeds: [embedScopeDM]
+                        });
+                    break;
             }
 
-            if (userHasPermissions) {
-                await command.execute(interaction);
-            } else {
-                interaction.reply({
-                    flags: MessageFlags.Ephemeral,
+            if (isGuild && !hasPermissions) {
+                return interaction.reply({
                     embeds: [embedInsufficientPermissions]
                 });
             }
+
+            await command.execute(interaction);
         } catch (err) {
             error(err);
             if (interaction.replied || interaction.deferred) {

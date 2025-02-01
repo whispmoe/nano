@@ -80,7 +80,8 @@ const joinVC = async (
         });
 
         connection.on("stateChange", (oldState, newState) => {
-            if (newState.status === VoiceConnectionStatus.Ready)
+            if (!interaction.isRepliable()) return;
+            if (newState.status === VoiceConnectionStatus.Ready && interaction)
                 interaction.reply({
                     embeds: [
                         buildEmbed(interaction, {

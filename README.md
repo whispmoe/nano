@@ -6,6 +6,10 @@
     </p>
 </div>
 
+> [!IMPORTANT]
+> nano is currently in development! everything seen here is highly subject to
+> change and things may break
+
 ## running
 
 ### creating an application

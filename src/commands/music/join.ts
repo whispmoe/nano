@@ -82,37 +82,42 @@ export const joinVC = async (
         });
 
         connection.on("stateChange", (_, newState) => {
-            if (newState.status === VoiceConnectionStatus.Ready && interaction)
-                interaction.reply({
-                    embeds: [
-                        buildEmbed(interaction, {
-                            style: "success",
-                            description: f.bold(
-                                locale(
-                                    "voice.joined",
-                                    interaction.guildLocale,
-                                    f.channel(vc.id)
-                                )
-                            )
-                        })
-                    ]
+            if (
+                interaction &&
+                newState.status === VoiceConnectionStatus.Ready
+            ) {
+                const embedSuccess = buildEmbed(interaction, {
+                    style: "success",
+                    description: f.bold(
+                        locale(
+                            "voice.joined",
+                            interaction.guildLocale,
+                            f.channel(vc.id)
+                        )
+                    )
                 });
+
+                interaction.reply({
+                    embeds: [embedSuccess]
+                });
+            }
         });
 
         return connection;
     } catch (err) {
         error(err);
-        if (interaction)
-            interaction.reply({
-                embeds: [
-                    buildEmbed(interaction, {
-                        style: "error",
-                        description: locale(
-                            "voice.couldNotJoin",
-                            interaction.guildLocale
-                        )
-                    })
-                ]
+        if (interaction) {
+            const embedCouldNotJoin = buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "voice.couldNotJoin",
+                    interaction.guildLocale
+                )
             });
+
+            interaction.reply({
+                embeds: [embedCouldNotJoin]
+            });
+        }
     }
 };

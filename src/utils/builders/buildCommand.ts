@@ -58,18 +58,10 @@ export const buildCommand = (
                 data.addStringOption(
                     new SlashCommandStringOption()
                         .setRequired(opt.required ?? false)
-                        .setName(locale("commands.say.options.message.name"))
-                        .setNameLocalizations(
-                            localeMap("commands.say.options.message.name")
-                        )
-                        .setDescription(
-                            locale("commands.say.options.message.description")
-                        )
-                        .setDescriptionLocalizations(
-                            localeMap(
-                                "commands.say.options.message.description"
-                            )
-                        )
+                        .setName(locale(opt.name))
+                        .setNameLocalizations(localeMap(opt.name))
+                        .setDescription(locale(opt.description))
+                        .setDescriptionLocalizations(localeMap(opt.description))
                 );
 
                 break;
@@ -78,18 +70,10 @@ export const buildCommand = (
                 data.addBooleanOption(
                     new SlashCommandBooleanOption()
                         .setRequired(opt.required ?? false)
-                        .setName(locale("commands.say.options.message.name"))
-                        .setNameLocalizations(
-                            localeMap("commands.say.options.message.name")
-                        )
-                        .setDescription(
-                            locale("commands.say.options.message.description")
-                        )
-                        .setDescriptionLocalizations(
-                            localeMap(
-                                "commands.say.options.message.description"
-                            )
-                        )
+                        .setName(locale(opt.name))
+                        .setNameLocalizations(localeMap(opt.name))
+                        .setDescription(locale(opt.description))
+                        .setDescriptionLocalizations(localeMap(opt.description))
                 );
 
                 break;

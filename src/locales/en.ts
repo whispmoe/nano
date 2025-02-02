@@ -13,6 +13,8 @@ export const en = {
 
         error: {
             default: "Something went wrong...",
+            unknown: "An unknown error occurred!",
+
             insufficientPermissions:
                 "You don't have enough permissions to use this command!",
 
@@ -53,7 +55,28 @@ export const en = {
 
         status: { description: "Returns the bot status to ensure its running" },
         help: { description: "Get information about the available commands" },
-        join: { description: "Ask Nano to join your current voice channel" }
+        join: { description: "Ask Nano to join your current voice channel" },
+
+        play: {
+            description: "Play a song from a supported source",
+            options: {
+                song: {
+                    name: "song",
+                    description:
+                        "The name of the song to search or a valid URL to play from"
+                }
+            }
+        },
+
+        search: {
+            description: "Search for a song on YouTube",
+            options: {
+                song: {
+                    name: "song",
+                    description: "Name of the song you want to search for"
+                }
+            }
+        }
     },
 
     say: { invalidMessage: "The specified message is not valid" },
@@ -93,5 +116,20 @@ export const en = {
         notInVoice: "You are currently not in a voice channel!",
         alreadyInVoice: "I am already connected to a voice channel!",
         joined: (channel: string) => `Joined channel ${channel} successfully!`
+    },
+
+    music: {
+        noSong: "A valid song URL or name was not provided!",
+
+        search: {
+            noResults: "No results found for your search!",
+            results: "Search results",
+
+            menu: {
+                select: "Pick a song",
+                back: "Back",
+                next: "Next"
+            }
+        }
     }
 };

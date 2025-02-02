@@ -14,6 +14,8 @@ export const es: LocaleObject = {
         expired: "Este comando ha expirado",
         error: {
             default: "Algo ha salido mal...",
+            unknown: "Un error desconocido ha ocurrido!",
+
             insufficientPermissions:
                 "No tienes suficientes permisos para usar este comando!",
 
@@ -58,7 +60,28 @@ export const es: LocaleObject = {
             description: "Obtén información sobre los comandos disponibles"
         },
 
-        join: { description: "Pide a Nano unirse a tu canal de voz" }
+        join: { description: "Pide a Nano unirse a tu canal de voz" },
+
+        play: {
+            description: "Reproduce una canción de alguna fuente valida",
+            options: {
+                song: {
+                    name: "canción",
+                    description:
+                        "El nombre de la canción que quieres reproducir o un enlace valido"
+                }
+            }
+        },
+
+        search: {
+            description: "Busca una canción en YouTube",
+            options: {
+                song: {
+                    name: "canción",
+                    description: "El nombre de la canción que quieres buscar"
+                }
+            }
+        }
     },
 
     say: { invalidMessage: "El mensaje especificado no es valido" },
@@ -95,5 +118,20 @@ export const es: LocaleObject = {
         notInVoice: "No estas dentro de un canal de voz!",
         alreadyInVoice: "Ya estoy conectada a un canal de voz!",
         joined: channel => `Unida al canal ${channel} con éxito!`
+    },
+
+    music: {
+        noSong: "No se ha proporcionado ninguna canción o enlace valido!",
+
+        search: {
+            noResults: "No se encontró ningún resultado para la búsqueda!",
+            results: "Resultados de la búsqueda",
+
+            menu: {
+                select: "Selecciona una canción",
+                back: "Anterior",
+                next: "Siguiente"
+            }
+        }
     }
 };

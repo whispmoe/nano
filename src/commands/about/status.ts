@@ -26,7 +26,7 @@ export default buildCommand(
         });
 
         const response = await interaction.reply({ embeds: [embedPinging] });
-        const botLatency =
+        const roundtripLatency =
             response.createdTimestamp - interaction.createdTimestamp;
 
         const wsTimeout = 10000;
@@ -47,18 +47,18 @@ export default buildCommand(
         });
 
         const statusEmoji = (n: number) => {
-            if (n < 100) return config.emojis.dotGreen;
-            else if (n >= 100 && n < 300) return config.emojis.dotOrange;
+            if (n < 200) return config.emojis.dotGreen;
+            else if (n >= 200 && n < 300) return config.emojis.dotOrange;
             else return config.emojis.dotRed;
         };
 
         const embedColor = (n: number) => {
-            if (n < 100) return config.embedColors.success;
-            else if (n >= 100 && n < 300) return config.embedColors.warning;
+            if (n < 200) return config.embedColors.success;
+            else if (n >= 200 && n < 300) return config.embedColors.warning;
             else return config.embedColors.error;
         };
 
-        const averageLatency = (botLatency + wsHeartbeat) / 2;
+        const averageLatency = (roundtripLatency + wsHeartbeat) / 2;
         const embedStatus = buildEmbed(interaction, {
             style: "default",
             title:
@@ -67,12 +67,15 @@ export default buildCommand(
 
             fields: [
                 {
-                    name: locale("status.latency.bot", interaction.guildLocale),
-                    value: `${statusEmoji(botLatency)} ${botLatency}ms`,
+                    name: locale(
+                        "status.latency.roundtrip",
+                        interaction.guildLocale
+                    ),
+                    value: `${statusEmoji(roundtripLatency)} ${roundtripLatency}ms`,
                     inline: true
                 },
                 {
-                    name: locale("status.latency.api", interaction.guildLocale),
+                    name: locale("status.latency.ws", interaction.guildLocale),
                     value: `${statusEmoji(wsHeartbeat)} ${wsHeartbeat}ms`,
                     inline: true
                 },

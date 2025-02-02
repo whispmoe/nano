@@ -24,19 +24,17 @@ export default buildCommand(
             locale("commands.say.options.message.name")
         );
 
-        if (message) interaction.reply(message);
-        else
+        const embedError = buildEmbed(interaction, {
+            style: "error",
+            description: locale("say.invalidMessage", interaction.guildLocale)
+        });
+
+        if (message) {
+            interaction.reply(message);
+        } else
             interaction.reply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    buildEmbed(interaction, {
-                        style: "error",
-                        description: locale(
-                            "say.invalidMessage",
-                            interaction.guildLocale
-                        )
-                    })
-                ]
+                embeds: [embedError]
             });
     }
 );

@@ -70,8 +70,8 @@ export const en = {
         pinging: "Pinging...",
 
         latency: {
-            api: "API latency",
-            bot: "Bot latency",
+            ws: "WebSocket Latency",
+            roundtrip: "Roundtrip Response",
             error: "Could not gather bot's latency data"
         },
 

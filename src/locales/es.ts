@@ -72,8 +72,8 @@ export const es: LocaleObject = {
         pinging: "Enviando ping...",
 
         latency: {
-            api: "Latencia de la API",
-            bot: "Latencia del bot",
+            ws: "Latencia del WebSocket",
+            roundtrip: "Latencia de la respuesta",
             error: "No se pudo obtener información sobre la latencia del bot"
         },
 

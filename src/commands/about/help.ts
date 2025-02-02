@@ -86,8 +86,10 @@ export default buildCommand(
 
         const collector =
             response.resource?.message?.createMessageComponentCollector({
+                time: config.componentTimeout,
                 componentType: ComponentType.StringSelect,
-                time: config.componentTimeout
+                filter: collectorInteraction =>
+                    collectorInteraction.user.id === interaction.user.id
             });
 
         if (!collector) return;

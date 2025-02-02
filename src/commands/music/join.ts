@@ -29,7 +29,12 @@ export default buildCommand(
             member => member.id === interaction.user.id
         );
 
-        if (!member?.voice.channel)
+        const vc = {
+            user: member?.voice.channel,
+            bot: interaction.guild?.members.me?.voice.channel
+        };
+
+        if (!vc.user)
             return interaction.reply({
                 flags: MessageFlags.Ephemeral,
                 embeds: [
@@ -43,12 +48,9 @@ export default buildCommand(
                 ]
             });
 
-        const memberVC = member.voice.channel;
-        const botVC = interaction.guild?.members.me?.voice.channel;
-
-        if (botVC && botVC.guild.id === memberVC.guild.id) {
-            if (botVC.members.size && botVC.members.size <= 1)
-                return await joinVC(interaction, memberVC);
+        if (vc.bot && vc.bot.guild.id === vc.user.guild.id) {
+            if (vc.bot.members.size && vc.bot.members.size <= 1)
+                return await joinVC(vc.user, interaction);
 
             return interaction.reply({
                 flags: MessageFlags.Ephemeral,
@@ -64,13 +66,13 @@ export default buildCommand(
             });
         }
 
-        await joinVC(interaction, memberVC);
+        await joinVC(vc.user, interaction);
     }
 );
 
-const joinVC = async (
-    interaction: ChatInputCommandInteraction,
-    vc: VoiceBasedChannel
+export const joinVC = async (
+    vc: VoiceBasedChannel,
+    interaction?: ChatInputCommandInteraction
 ): Promise<VoiceConnection | undefined> => {
     try {
         const connection = joinVoiceChannel({
@@ -79,8 +81,7 @@ const joinVC = async (
             adapterCreator: vc.guild.voiceAdapterCreator
         });
 
-        connection.on("stateChange", (oldState, newState) => {
-            if (!interaction.isRepliable()) return;
+        connection.on("stateChange", (_, newState) => {
             if (newState.status === VoiceConnectionStatus.Ready && interaction)
                 interaction.reply({
                     embeds: [
@@ -101,16 +102,17 @@ const joinVC = async (
         return connection;
     } catch (err) {
         error(err);
-        interaction.reply({
-            embeds: [
-                buildEmbed(interaction, {
-                    style: "error",
-                    description: locale(
-                        "voice.couldNotJoin",
-                        interaction.guildLocale
-                    )
-                })
-            ]
-        });
+        if (interaction)
+            interaction.reply({
+                embeds: [
+                    buildEmbed(interaction, {
+                        style: "error",
+                        description: locale(
+                            "voice.couldNotJoin",
+                            interaction.guildLocale
+                        )
+                    })
+                ]
+            });
     }
 };

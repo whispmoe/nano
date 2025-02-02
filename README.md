@@ -6,6 +6,10 @@
     </p>
 </div>
 
+> [!IMPORTANT]
+> nano is currently in development! everything seen here is highly subject to
+> change and things may break
+
 ## running
 
 ### creating an application
@@ -29,7 +33,7 @@ object at [`src/types/config.ts`](src/types/config.ts)
 
 once you have filled the configuration object, you may want to deploy the app
 commands first, so that you can actually interact with the bot once it starts.
-you may do so by running `pnpm run deploy`.
+you may do so by running `pnpm run deploy`
 
 finally, you may start the bot using `pnpm start`
 

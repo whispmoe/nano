@@ -26,7 +26,7 @@ help.execute = async interaction => {
         defaultHelp: buildEmbed(interaction, {
             style: "default",
             title:
-                `${config.emojis.kamakura} ` +
+                `${config.emojis.nanoKey} ` +
                 locale("bot.fullName", interaction.guildLocale),
 
             description: `${locale(

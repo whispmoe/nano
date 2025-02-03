@@ -19,7 +19,7 @@ status.execute = async interaction => {
             image: { url: config.img.walking },
 
             title:
-                `${config.emojis.hakaseButton} ` +
+                `${config.emojis.nanoKey} ` +
                 locale("status.pinging", interaction.guildLocale),
 
             description: locale("status.wait", interaction.guildLocale)
@@ -65,7 +65,7 @@ status.execute = async interaction => {
         image: { url: config.img.sleepy },
 
         title:
-            `${config.emojis.checkmark} ` +
+            `${config.emojis.nanoKey} ` +
             locale("status.title", interaction.guildLocale),
 
         color: resolveColor(getAvg((roundtripLatency + wsHeartbeat) / 2).color),

@@ -74,7 +74,7 @@ export const es: LocaleObject = {
     },
 
     status: {
-        title: "Estado del bot",
+        title: "Estado de Nano",
         pinging: "Enviando ping...",
         wait: "Por favor espera...",
 

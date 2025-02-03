@@ -72,7 +72,7 @@ export const en = {
     },
 
     status: {
-        title: "Status",
+        title: "Nano Status",
         pinging: "Pinging...",
         wait: "Please wait...",
 

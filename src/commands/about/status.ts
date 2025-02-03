@@ -1,9 +1,9 @@
 import config from "@/config.js";
-import { Command } from "@/classes/command.js";
 
-import { f } from "@/utils/messages/formatting.js";
+import { Command } from "@/classes/command.js";
+import { Embed } from "@/classes/embed.js";
+
 import { locale } from "@/utils/messages/locale.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 
 import prettyMilliseconds from "pretty-ms";
 import { EmbedBuilder, resolveColor } from "discord.js";
@@ -14,21 +14,18 @@ const status = new Command("status", {
 
 status.execute = async interaction => {
     const embeds: Record<string, EmbedBuilder> = {
-        pinging: buildEmbed(interaction, {
-            style: "default",
+        pinging: new Embed(interaction, {
             image: { url: config.img.walking },
-
             title:
                 `${config.emojis.nanoKey} ` +
                 locale("status.pinging", interaction.guildLocale),
-
             description: locale("status.wait", interaction.guildLocale)
-        }),
+        }).data,
 
-        error: buildEmbed(interaction, {
-            style: "error",
+        error: new Embed(interaction, {
+            ...Embed.error,
             description: locale("status.latency.error", interaction.guildLocale)
-        })
+        }).data
     };
 
     const response = await interaction.reply({
@@ -54,21 +51,19 @@ status.execute = async interaction => {
 
         color:
             n < 200
-                ? config.embedColors.success
+                ? config.colors.success
                 : n < 300
-                  ? config.embedColors.warning
-                  : config.embedColors.error
+                  ? config.colors.warning
+                  : config.colors.error
     });
 
-    embeds.status = buildEmbed(interaction, {
-        style: "default",
+    embeds.status = new Embed(interaction, {
+        color: resolveColor(getAvg((roundtripLatency + wsHeartbeat) / 2).color),
         image: { url: config.img.sleepy },
 
         title:
             `${config.emojis.nanoKey} ` +
             locale("status.title", interaction.guildLocale),
-
-        color: resolveColor(getAvg((roundtripLatency + wsHeartbeat) / 2).color),
 
         fields: [
             {
@@ -99,7 +94,7 @@ status.execute = async interaction => {
                     )}`
             }
         ]
-    });
+    }).data;
 
     response.edit({
         embeds: [embeds.status]

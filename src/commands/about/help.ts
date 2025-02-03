@@ -1,10 +1,11 @@
 import config from "@/config.js";
+
+import { Embed } from "@/classes/embed.js";
 import { Command } from "@/classes/command.js";
 
 import { f } from "@/utils/messages/formatting.js";
 import { locale } from "@/utils/messages/locale.js";
 import { getCommandID } from "@/utils/getCommandID.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 
 import {
     ActionRowBuilder,
@@ -23,8 +24,7 @@ const help = new Command("help", {
 
 help.execute = async interaction => {
     const embeds: Record<string, EmbedBuilder> = {
-        defaultHelp: buildEmbed(interaction, {
-            style: "default",
+        defaultHelp: new Embed(interaction, {
             title:
                 `${config.emojis.nanoKey} ` +
                 locale("bot.fullName", interaction.guildLocale),
@@ -34,7 +34,7 @@ help.execute = async interaction => {
                 interaction.guildLocale,
                 locale("bot.fullName", interaction.guildLocale)
             )}\n${f.small(locale("help.usage", interaction.guildLocale))}`
-        }).setThumbnail(interaction.client.user.avatarURL())
+        }).data.setThumbnail(interaction.client.user.avatarURL())
     };
 
     let selectedCategory: string;
@@ -157,13 +157,13 @@ const getCategoryHelp = async (
 ): Promise<EmbedBuilder> => {
     const selectedCategory = interaction.client.categories.get(selection);
     if (!selectedCategory)
-        return buildEmbed(interaction, {
-            style: "error",
+        return new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "help.category.notExists",
                 interaction.guildLocale
             )
-        });
+        }).data;
 
     const fields: APIEmbedField[] = await Promise.all(
         selectedCategory.commands.map(
@@ -184,14 +184,13 @@ const getCategoryHelp = async (
         )
     );
 
-    return buildEmbed(interaction, {
-        style: "default",
+    return new Embed(interaction, {
         fields,
         title:
             `${selectedCategory.emoji} ` +
             getCategoryName(loc, selectedCategory),
         description: f.small(getCategoryDescription(loc, selectedCategory))
-    }).setThumbnail(interaction.client.user.avatarURL());
+    }).data.setThumbnail(interaction.client.user.avatarURL());
 };
 
 export default help;

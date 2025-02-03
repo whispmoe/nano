@@ -1,7 +1,8 @@
+import { Embed } from "@/classes/embed.js";
+import { Event } from "@/classes/event.js";
+
 import { error } from "@/utils/logging.js";
 import { locale } from "@/utils/messages/locale.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
-import { Event } from "@/classes/event.js";
 
 import {
     EmbedBuilder,
@@ -21,46 +22,46 @@ interactionCreate.execute = async (interaction: Interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
 
     const embeds: Record<string, EmbedBuilder> = {
-        commandNotFound: buildEmbed(interaction, {
-            style: "error",
+        commandNotFound: new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "common.error.commandNotFound",
                 interaction.guildLocale,
                 interaction.commandName
             )
-        }),
+        }).data,
 
-        interactionFailed: buildEmbed(interaction, {
-            style: "error",
+        interactionFailed: new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "common.error.interactionFailed",
                 interaction.guildLocale
             )
-        }),
+        }).data,
 
-        insufficientPermissions: buildEmbed(interaction, {
-            style: "error",
+        insufficientPermissions: new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "common.error.insufficientPermissions",
                 interaction.guildLocale
             )
-        }),
+        }).data,
 
-        scopeGuild: buildEmbed(interaction, {
-            style: "error",
+        scopeGuild: new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "common.error.scope.guild",
                 interaction.guildLocale
             )
-        }),
+        }).data,
 
-        scopeDM: buildEmbed(interaction, {
-            style: "error",
+        scopeDM: new Embed(interaction, {
+            ...Embed.error,
             description: locale(
                 "common.error.scope.dm",
                 interaction.guildLocale
             )
-        })
+        }).data
     };
 
     if (!command) {

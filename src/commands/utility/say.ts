@@ -1,5 +1,6 @@
+import { Embed } from "@/classes/embed.js";
 import { Command } from "@/classes/command.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
+
 import { locale, localeMap } from "@/utils/messages/locale.js";
 import { EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
 
@@ -24,10 +25,10 @@ say.execute = async interaction => {
     );
 
     const embeds: Record<string, EmbedBuilder> = {
-        error: buildEmbed(interaction, {
-            style: "error",
+        error: new Embed(interaction, {
+            ...Embed.error,
             description: locale("say.invalidMessage", interaction.guildLocale)
-        })
+        }).data
     };
 
     interaction.reply(

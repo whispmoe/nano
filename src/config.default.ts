@@ -48,7 +48,7 @@ const config: NanoConfig = {
         ]
     }),
 
-    embedColors: {
+    colors: {
         default: "#ecc7a7",
         success: "#9fc594",
         warning: "#e29d73",

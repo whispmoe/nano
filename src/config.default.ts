@@ -6,7 +6,8 @@ import path from "path";
 import { ActivityType, Locale } from "discord.js";
 
 process.loadEnvFile();
-const { TOKEN, CLIENT_ID, GUILD_ID, DEVELOPER_ID } = process.env;
+const { TOKEN, CLIENT_ID, GUILD_ID, DEVELOPER_ID, YOUTUBE_COOKIES } =
+    process.env;
 
 const __dirname = import.meta.dirname;
 const imgBaseURL = "https://nano.whisp.moe/img";
@@ -28,6 +29,12 @@ const config: NanoConfig = {
     paths: {
         commands: path.join(__dirname, "commands"),
         events: path.join(__dirname, "events")
+    },
+
+    music: {
+        youtube: {
+            cookies: JSON.parse(YOUTUBE_COOKIES ?? "[]")
+        }
     },
 
     defaultLocale: Locale.EnglishUS,

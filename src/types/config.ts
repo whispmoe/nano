@@ -1,3 +1,4 @@
+import type ytdl from "@distube/ytdl-core";
 import type { Client, ColorResolvable, Locale, PresenceData } from "discord.js";
 
 export interface NanoConfig {
@@ -29,6 +30,13 @@ export interface NanoConfig {
         /** Guild ID for the bot's development or testing server */
         guild?: string;
     };
+
+    /** Configuration related to music playback functionality */
+    music?: Partial<{
+        youtube: Partial<{
+            cookies?: ytdl.Cookie[];
+        }>;
+    }>;
 
     /** An object defining paths to be used by the bot */
     paths: { [name: string]: string };

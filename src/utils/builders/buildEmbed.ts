@@ -1,5 +1,4 @@
 import config from "@/config.js";
-import { locale, type LocaleKey } from "@/utils/messages/locale.js";
 
 import {
     EmbedBuilder,
@@ -14,53 +13,20 @@ interface EmbedProperties extends EmbedData {
 
 const defaultFooter = (
     interaction: ChatInputCommandInteraction
-): EmbedFooterData => {
-    let iconURL;
-
-    const text = interaction.guild
-        ? interaction.guild.name
-        : interaction.client.user.displayName;
-
-    if (interaction.guild?.iconURL())
-        iconURL = interaction.guild.iconURL() ?? undefined;
-    else if (interaction.client.user.avatarURL())
-        iconURL = interaction.client.user.avatarURL() ?? undefined;
-
-    return { text, iconURL };
-};
+): EmbedFooterData => ({
+    text: interaction.guild?.name ?? interaction.client.user.displayName,
+    iconURL:
+        interaction.guild?.iconURL() ??
+        interaction.client.user.avatarURL() ??
+        undefined
+});
 
 export const buildEmbed = (
     interaction: ChatInputCommandInteraction,
     prop: EmbedProperties
 ) => {
-    let color = config.embedColors.default;
-    switch (prop.style) {
-        case "default":
-            color = config.embedColors.default;
-            break;
-
-        case "success":
-            color = config.embedColors.success;
-            break;
-
-        case "warning":
-            color = config.embedColors.warning;
-            break;
-
-        case "error":
-            if (!prop.title)
-                prop.title =
-                    `${config.emojis.sakamotoFear} ` +
-                    locale("common.error.default", interaction.guildLocale);
-
-            if (!prop.image) prop.image = { url: config.img.nervous };
-            color = config.embedColors.error;
-            break;
-    }
-
-    return new EmbedBuilder(prop)
-        .setTitle(prop.title ?? null)
-        .setDescription(prop.description ?? null)
+    const color = config.embedColors[prop.style] ?? config.embedColors.default;
+    return new EmbedBuilder({ ...prop })
         .setFooter(defaultFooter(interaction))
         .setTimestamp(new Date())
         .setColor(color);

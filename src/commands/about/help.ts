@@ -1,51 +1,43 @@
 import config from "@/config.js";
-import { locale } from "@/utils/messages/locale.js";
+
 import { f } from "@/utils/messages/formatting.js";
+import { locale } from "@/utils/messages/locale.js";
+import { getCommandID } from "@/utils/getCommandID.js";
+import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 import { buildCommand } from "@/utils/builders/buildCommand.js";
 
 import {
     ActionRowBuilder,
     ChatInputCommandInteraction,
     ComponentType,
+    EmbedBuilder,
+    Locale,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
     type APIEmbedField,
     type RestOrArray
 } from "discord.js";
-import { getCommandID } from "@/utils/getCommandID.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
-
-const getCategoryName = (
-    interaction: ChatInputCommandInteraction,
-    category: Category
-) =>
-    category.name[interaction.guildLocale ?? config.defaultLocale] ??
-    category.id;
-
-const getCategoryDescription = (
-    interaction: ChatInputCommandInteraction,
-    category: Category
-) =>
-    category.description[interaction.guildLocale ?? config.defaultLocale] ??
-    locale("help.category.noDescription", interaction.guildLocale);
 
 export default buildCommand(
     { name: "help", description: "commands.help.description" },
     async interaction => {
-        let selection: string;
+        const embeds: Record<string, EmbedBuilder> = {
+            defaultHelp: buildEmbed(interaction, {
+                style: "default",
+                title:
+                    `${config.emojis.kamakura} ` +
+                    locale("bot.fullName", interaction.guildLocale),
 
-        const embedDefaultHelp = buildEmbed(interaction, {
-            style: "default",
-            title:
-                `${config.emojis.kamakura} ` +
-                locale("bot.fullName", interaction.guildLocale),
+                description: `${locale(
+                    "help.intro",
+                    interaction.guildLocale,
+                    locale("bot.fullName", interaction.guildLocale)
+                )}\n${f.small(locale("help.usage", interaction.guildLocale))}`
+            }).setThumbnail(interaction.client.user.avatarURL())
+        };
 
-            description: `${locale(
-                "help.intro",
-                interaction.guildLocale,
-                locale("bot.fullName", interaction.guildLocale)
-            )}\n${f.small(locale("help.usage", interaction.guildLocale))}`
-        }).setThumbnail(interaction.client.user.avatarURL());
+        let selectedCategory: string;
+        const effectiveLocale = interaction.guildLocale ?? config.defaultLocale;
 
         const categoryMenu = new StringSelectMenuBuilder()
             .setCustomId("category")
@@ -55,10 +47,12 @@ export default buildCommand(
 
         interaction.client.categories.forEach(category => {
             if (category.commands.size <= 0) return;
+            embeds.defaultHelp.addFields({
+                name:
+                    `${category.emoji} ` +
+                    getCategoryName(effectiveLocale, category),
 
-            embedDefaultHelp.addFields({
-                name: `${category.emoji} ${getCategoryName(interaction, category)}`,
-                value: getCategoryDescription(interaction, category),
+                value: getCategoryDescription(effectiveLocale, category),
                 inline: true
             });
 
@@ -66,10 +60,10 @@ export default buildCommand(
                 new StringSelectMenuOptionBuilder()
                     .setValue(category.id)
                     .setEmoji(category.emoji)
-                    .setDefault(selection === category.id)
-                    .setLabel(getCategoryName(interaction, category))
+                    .setDefault(selectedCategory === category.id)
+                    .setLabel(getCategoryName(effectiveLocale, category))
                     .setDescription(
-                        getCategoryDescription(interaction, category)
+                        getCategoryDescription(effectiveLocale, category)
                     )
             );
         });
@@ -80,7 +74,7 @@ export default buildCommand(
 
         const response = await interaction.reply({
             withResponse: true,
-            embeds: [embedDefaultHelp],
+            embeds: [embeds.defaultHelp],
             components: [componentsRow]
         });
 
@@ -91,44 +85,57 @@ export default buildCommand(
                 filter: i => i.user.id === interaction.user.id
             });
 
-        if (!collector) return;
+        if (!collector)
+            return response.resource?.message?.edit({ components: [] });
+
         collector.on("collect", async collectorInteraction => {
             collector.resetTimer();
-            selection = collectorInteraction.values[0];
+            selectedCategory = collectorInteraction.values[0];
+
             const selectedOption = categoryMenu.options.find(
-                option => option.data.value === selection
+                option => option.data.value === selectedCategory
             );
 
             categoryMenu.options.forEach(option => option.setDefault(false));
             if (selectedOption) selectedOption.setDefault(true);
 
-            return await collectorInteraction.update({
-                embeds: [await getCategoryHelp(interaction, selection)],
+            collectorInteraction.update({
+                embeds: [
+                    await getCategoryHelp(
+                        interaction,
+                        selectedCategory,
+                        effectiveLocale
+                    )
+                ],
                 components: [componentsRow]
             });
         });
 
         collector.on("end", async () => {
             const isCategorySelected = categoryMenu.options.some(
-                option => option.data.value === selection
+                option => option.data.value === selectedCategory
             );
 
-            const embedCategoryHelp = await getCategoryHelp(
-                interaction,
-                selection
-            );
+            let currentEmbed: EmbedBuilder;
+            if (isCategorySelected) {
+                const categoryHelp = await getCategoryHelp(
+                    interaction,
+                    selectedCategory,
+                    effectiveLocale
+                );
 
-            const currentEmbed = isCategorySelected
-                ? embedCategoryHelp.setDescription(
-                      f.small(locale("common.expired", interaction.guildLocale))
-                  )
-                : embedDefaultHelp.setDescription(
-                      `${locale(
-                          "help.intro",
-                          interaction.guildLocale,
-                          locale("bot.fullName", interaction.guildLocale)
-                      )}\n${f.small(locale("common.expired", interaction.guildLocale))}`
-                  );
+                currentEmbed = categoryHelp.setDescription(
+                    f.small(locale("common.expired", interaction.guildLocale))
+                );
+            } else {
+                currentEmbed = embeds.defaultHelp.setDescription(
+                    `${locale(
+                        "help.intro",
+                        interaction.guildLocale,
+                        locale("bot.fullName", interaction.guildLocale)
+                    )}\n${f.small(locale("common.expired", interaction.guildLocale))}`
+                );
+            }
 
             interaction.editReply({
                 embeds: [currentEmbed],
@@ -138,12 +145,18 @@ export default buildCommand(
     }
 );
 
+const getCategoryName = (loc: Locale, category: Category) =>
+    category.name[loc] ?? category.id;
+
+const getCategoryDescription = (loc: Locale, category: Category) =>
+    category.description[loc] ?? locale("help.category.noDescription", loc);
+
 const getCategoryHelp = async (
     interaction: ChatInputCommandInteraction,
-    selection: string
-) => {
+    selection: string,
+    loc: Locale
+): Promise<EmbedBuilder> => {
     const selectedCategory = interaction.client.categories.get(selection);
-
     if (!selectedCategory)
         return buildEmbed(interaction, {
             style: "error",
@@ -153,7 +166,7 @@ const getCategoryHelp = async (
             )
         });
 
-    const commandFields: RestOrArray<APIEmbedField> = await Promise.all(
+    const fields: RestOrArray<APIEmbedField> = await Promise.all(
         selectedCategory.commands.map(
             async (command): Promise<APIEmbedField> => {
                 const id = getCommandID(interaction, command.data.name);
@@ -162,13 +175,9 @@ const getCategoryHelp = async (
                 const descriptionLocalizations =
                     command.data.description_localizations;
 
-                const descriptionLocale =
-                    interaction.guildLocale ?? config.defaultLocale;
-
-                let value =
-                    descriptionLocalizations &&
-                    descriptionLocalizations[descriptionLocale]
-                        ? descriptionLocalizations[descriptionLocale]
+                const value =
+                    descriptionLocalizations && descriptionLocalizations[loc]
+                        ? descriptionLocalizations[loc]
                         : command.data.description;
 
                 return { name, value, inline: true };
@@ -178,14 +187,10 @@ const getCategoryHelp = async (
 
     return buildEmbed(interaction, {
         style: "default",
+        fields,
         title:
             `${selectedCategory.emoji} ` +
-            getCategoryName(interaction, selectedCategory),
-
-        description: f.small(
-            getCategoryDescription(interaction, selectedCategory)
-        ),
-
-        fields: commandFields
+            getCategoryName(loc, selectedCategory),
+        description: f.small(getCategoryDescription(loc, selectedCategory))
     }).setThumbnail(interaction.client.user.avatarURL());
 };

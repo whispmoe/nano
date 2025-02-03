@@ -2,9 +2,9 @@ import { error } from "@/utils/logging.js";
 import { buildEvent } from "@/utils/builders/buildEvent.js";
 import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 import { locale } from "@/utils/messages/locale.js";
-import pc from "picocolors";
 
 import {
+    EmbedBuilder,
     Events,
     GuildMember,
     InteractionContextType,
@@ -12,6 +12,7 @@ import {
     type Interaction,
     type InteractionReplyOptions
 } from "discord.js";
+import pc from "picocolors";
 
 export default buildEvent(
     { name: Events.InteractionCreate },
@@ -22,60 +23,60 @@ export default buildEvent(
             interaction.commandName
         );
 
+        const embeds: Record<string, EmbedBuilder> = {
+            commandNotFound: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "common.error.commandNotFound",
+                    interaction.guildLocale,
+                    interaction.commandName
+                )
+            }),
+
+            interactionFailed: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "common.error.interactionFailed",
+                    interaction.guildLocale
+                )
+            }),
+
+            insufficientPermissions: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "common.error.insufficientPermissions",
+                    interaction.guildLocale
+                )
+            }),
+
+            scopeGuild: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "common.error.scope.guild",
+                    interaction.guildLocale
+                )
+            }),
+
+            scopeDM: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "common.error.scope.dm",
+                    interaction.guildLocale
+                )
+            })
+        };
+
         if (!command) {
             error(
-                "command",
-                pc.bold(pc.cyan(`/${interaction.commandName}`)),
-                "not found"
+                `command ${pc.bold(pc.cyan(`/${interaction.commandName}`))}`,
+                "not found!"
             );
 
             return interaction.reply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    buildEmbed(interaction, {
-                        style: "error",
-                        description:
-                            "The specified command `" +
-                            interaction.commandName +
-                            "` was not found"
-                    })
-                ]
+                embeds: [embeds.commandNotFound]
             });
         }
-
-        const messageInteractionError: InteractionReplyOptions = {
-            flags: MessageFlags.Ephemeral,
-            embeds: [
-                buildEmbed(interaction, {
-                    style: "error",
-                    description: "Something went wrong during this interaction!"
-                })
-            ]
-        };
-
-        const embedScopeGuild = buildEmbed(interaction, {
-            style: "error",
-            description: locale(
-                "common.error.scope.guild",
-                interaction.guildLocale
-            )
-        });
-
-        const embedScopeDM = buildEmbed(interaction, {
-            style: "error",
-            description: locale(
-                "common.error.scope.dm",
-                interaction.guildLocale
-            )
-        });
-
-        const embedInsufficientPermissions = buildEmbed(interaction, {
-            style: "error",
-            description: locale(
-                "common.error.insufficientPermissions",
-                interaction.guildLocale
-            )
-        });
 
         let member: GuildMember | undefined;
         const guild = await interaction.guild?.fetch();
@@ -98,8 +99,7 @@ export default buildEvent(
                 case InteractionContextType.Guild:
                     if (isDM)
                         return interaction.reply({
-                            flags: MessageFlags.Ephemeral,
-                            embeds: [embedScopeGuild]
+                            embeds: [embeds.scopeGuild]
                         });
                     break;
 
@@ -107,23 +107,29 @@ export default buildEvent(
                     if (isGuild)
                         return interaction.reply({
                             flags: MessageFlags.Ephemeral,
-                            embeds: [embedScopeDM]
+                            embeds: [embeds.scopeDM]
                         });
                     break;
             }
 
             if (isGuild && !hasPermissions) {
                 return interaction.reply({
-                    embeds: [embedInsufficientPermissions]
+                    flags: MessageFlags.Ephemeral,
+                    embeds: [embeds.insufficientPermissions]
                 });
             }
 
             await command.execute(interaction);
         } catch (err) {
             error(err);
+            const interactionError: InteractionReplyOptions = {
+                flags: MessageFlags.Ephemeral,
+                embeds: [embeds.interactionFailed]
+            };
+
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp(messageInteractionError);
-            } else await interaction.reply(messageInteractionError);
+                await interaction.followUp(interactionError);
+            } else await interaction.reply(interactionError);
         }
     }
 );

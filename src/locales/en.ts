@@ -13,8 +13,13 @@ export const en = {
 
         error: {
             default: "Something went wrong...",
+            interactionFailed: "Something went wrong during this interaction!",
+
             insufficientPermissions:
                 "You don't have enough permissions to use this command!",
+
+            commandNotFound: (command: string) =>
+                `Command ${f.code(`/${command}`)} was not found!`,
 
             scope: {
                 guild: "This command can only be used in a server!",
@@ -68,6 +73,7 @@ export const en = {
     status: {
         title: "Bot status",
         pinging: "Pinging...",
+        wait: "Please wait...",
 
         latency: {
             ws: "WebSocket Latency",

@@ -52,7 +52,7 @@ export interface NanoConfig {
     presence?: (client: Client) => PresenceData;
 
     /** An object defining colors which may be used by embeds */
-    embedColors: Record<string, ColorResolvable>;
+    colors: Record<string, ColorResolvable>;
 
     /** An object representing the emojis to be used by the bot */
     emojis: { [name: string]: string };

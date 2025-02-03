@@ -29,7 +29,7 @@ export const loadCategories = async (client: Client) => {
         const categoryPath = path.join(config.paths.commands, categoryFolder);
 
         try {
-            const categoryData: Category = (
+            const categoryData: BotCategory = (
                 await import(`${categoryPath}/index.ts`)
             ).default;
 

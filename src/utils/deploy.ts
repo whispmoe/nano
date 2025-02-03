@@ -38,7 +38,7 @@ const loadCommands = async (
                 continue;
 
             const commandPath = path.join(categoryPath, commandFile);
-            const command: Command = (await import(commandPath)).default;
+            const command: BotCommand = (await import(commandPath)).default;
 
             if (!command.data || !command.execute) {
                 warn(

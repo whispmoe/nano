@@ -99,7 +99,7 @@ export const en = {
     },
 
     status: {
-        title: "Bot status",
+        title: "Status",
         pinging: "Pinging...",
         wait: "Please wait...",
 

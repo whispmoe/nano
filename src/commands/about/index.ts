@@ -1,8 +1,7 @@
 import config from "@/config.js";
-import { buildCategory } from "@/utils/builders/buildCategory.js";
+import { Category } from "@/classes/category.js";
 
-export default buildCategory({
-    id: "about",
+export default new Category("about", {
     name: "categories.about.name",
     description: "categories.about.description",
     emoji: config.emojis.bubble

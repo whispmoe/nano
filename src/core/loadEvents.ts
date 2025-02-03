@@ -25,9 +25,9 @@ export const loadEvents = async (client: Client) => {
 
     for (const eventFile of eventFiles) {
         const eventPath = path.join(config.paths.events, eventFile);
-        const event: EventHandler = (await import(eventPath)).default;
+        const event: BotEvent = (await import(eventPath)).default;
 
-        if (event.once)
+        if (event.prop.once)
             client.once(event.name, (...args) => event.execute(...args));
         else client.on(event.name, (...args) => event.execute(...args));
     }

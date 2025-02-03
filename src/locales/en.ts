@@ -13,6 +13,7 @@ export const en = {
 
         error: {
             default: "Something went wrong...",
+            unknown: "An unknown error occurred!",
             interactionFailed: "Something went wrong during this interaction!",
 
             insufficientPermissions:

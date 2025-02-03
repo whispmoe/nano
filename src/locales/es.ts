@@ -15,6 +15,7 @@ export const es: LocaleObject = {
         error: {
             default: "Algo ha salido mal...",
             interactionFailed: "Ha ocurrido un error durante la interacción!",
+            unknown: "Un error desconocido ha ocurrido!",
 
             insufficientPermissions:
                 "No tienes suficientes permisos para usar este comando!",

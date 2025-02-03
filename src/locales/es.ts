@@ -121,11 +121,22 @@ export const es: LocaleObject = {
     },
 
     music: {
-        noSong: "No se ha proporcionado ninguna canción o enlace valido!",
+        stopped: "Reproducción detenida",
+        playing: "Reproduciendo",
+        paused: "Pausado",
+
+        error: {
+            noSong: "No se ha proporcionado ninguna canción o enlace valido!",
+            unknown:
+                "Ha ocurrido un error desconocido durante la reproducción!",
+
+            couldNotPlay:
+                "No pude reproducir esa canción! Que tal probar con alguna otra...?"
+        },
 
         search: {
-            noResults: "No se encontró ningún resultado para la búsqueda!",
             results: "Resultados de la búsqueda",
+            noResults: "No se encontró ningún resultado para la búsqueda!",
 
             menu: {
                 select: "Selecciona una canción",

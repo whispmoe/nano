@@ -48,7 +48,7 @@ export const search = async (
 
     const embedNoSong = buildEmbed(interaction, {
         style: "error",
-        description: locale("music.noSong", interaction.guildLocale)
+        description: locale("music.error.noSong", interaction.guildLocale)
     });
 
     if (!song) {
@@ -100,6 +100,7 @@ export const search = async (
         const embedExpired = buildEmbed(interaction, {
             fields,
             style: "default",
+            title: locale("music.search.results", interaction.guildLocale),
             description: f.small(
                 locale("common.expired", interaction.guildLocale)
             )

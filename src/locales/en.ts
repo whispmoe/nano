@@ -63,7 +63,7 @@ export const en = {
                 song: {
                     name: "song",
                     description:
-                        "The name of the song to search or a valid URL to play from"
+                        "The name of the song to search for or a valid URL to play from"
                 }
             }
         },
@@ -119,11 +119,20 @@ export const en = {
     },
 
     music: {
-        noSong: "A valid song URL or name was not provided!",
+        stopped: "Playback stopped",
+        playing: "Playing",
+        paused: "Paused",
+
+        error: {
+            unknown: "An unknown error occurred during playback!",
+            noSong: "A valid song URL or name was not provided!",
+            couldNotPlay:
+                "I could not play that song... Maybe try another one...?"
+        },
 
         search: {
-            noResults: "No results found for your search!",
             results: "Search results",
+            noResults: "No results found for your search!",
 
             menu: {
                 select: "Pick a song",

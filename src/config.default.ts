@@ -1,6 +1,6 @@
 import type { NanoConfig } from "@/types/config.js";
 
-import { locale } from "@/utils/messages/locale.js";
+import { locale } from "@/utils/locale.js";
 
 import path from "path";
 import { ActivityType, Locale } from "discord.js";

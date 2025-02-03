@@ -1,5 +1,5 @@
-import type { LocaleObject } from "@/utils/messages/locale.js";
-import { f } from "@/utils/messages/formatting.js";
+import type { LocaleObject } from "@/utils/locale.js";
+import { bold, inlineCode } from "discord.js";
 
 export const es: LocaleObject = {
     bot: {
@@ -21,7 +21,7 @@ export const es: LocaleObject = {
                 "No tienes suficientes permisos para usar este comando!",
 
             commandNotFound: command =>
-                `No se ha encontrado el commando ${f.code(`/${command}`)}!`,
+                `No se ha encontrado el commando ${inlineCode(`/${command}`)}!`,
 
             scope: {
                 guild: "Este comando solo puede ser usando en un servidor!",
@@ -63,7 +63,7 @@ export const es: LocaleObject = {
     say: { invalidMessage: "El mensaje especificado no es valido" },
 
     help: {
-        intro: name => `Hola, soy ${f.bold(`${name}!`)} ${es.bot.description}`,
+        intro: name => `Hola, soy ${bold(`${name}!`)} ${es.bot.description}`,
         usage: "Para obtener ayuda, selecciona una categoría a traves del menu",
 
         category: {
@@ -87,7 +87,7 @@ export const es: LocaleObject = {
         uptime: {
             title: "Tiempo en linea",
             value: (uptime: string) =>
-                `Nano ha estado despierta por ${f.bold(uptime)}`
+                `Nano ha estado despierta por ${bold(uptime)}`
         }
     }
 };

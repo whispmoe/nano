@@ -3,7 +3,7 @@ import config from "@/config.js";
 import { Command } from "@/classes/command.js";
 import { Embed } from "@/classes/embed.js";
 
-import { locale } from "@/utils/messages/locale.js";
+import { locale } from "@/utils/locale.js";
 
 import prettyMilliseconds from "pretty-ms";
 import { EmbedBuilder, resolveColor } from "discord.js";

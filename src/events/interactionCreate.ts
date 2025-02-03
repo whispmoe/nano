@@ -2,7 +2,7 @@ import { Embed } from "@/classes/embed.js";
 import { Event } from "@/classes/event.js";
 
 import { error } from "@/utils/logging.js";
-import { locale } from "@/utils/messages/locale.js";
+import { locale } from "@/utils/locale.js";
 
 import {
     EmbedBuilder,

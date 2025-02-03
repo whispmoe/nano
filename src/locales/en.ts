@@ -1,4 +1,4 @@
-import { f } from "@/utils/messages/formatting.js";
+import { bold, inlineCode } from "discord.js";
 
 export const en = {
     bot: {
@@ -20,7 +20,7 @@ export const en = {
                 "You don't have enough permissions to use this command!",
 
             commandNotFound: (command: string) =>
-                `Command ${f.code(`/${command}`)} was not found!`,
+                `Command ${inlineCode(`/${command}`)} was not found!`,
 
             scope: {
                 guild: "This command can only be used in a server!",
@@ -60,7 +60,7 @@ export const en = {
 
     help: {
         intro: (name: string) =>
-            `Hello, I'm ${f.bold(`${name}!`)} ${en.bot.description}`,
+            `Hello, I'm ${bold(`${name}!`)} ${en.bot.description}`,
 
         usage: "To get started, select a command category from the menu below",
 
@@ -84,8 +84,7 @@ export const en = {
 
         uptime: {
             title: "Uptime",
-            value: (uptime: string) =>
-                `Nano has been awake for ${f.bold(uptime)}`
+            value: (uptime: string) => `Nano has been awake for ${bold(uptime)}`
         }
     }
 };

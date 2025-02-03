@@ -1,4 +1,4 @@
-import { localeMap, type LocaleKey } from "@/utils/messages/locale.js";
+import { localeMap, type LocaleKey } from "@/utils/locale.js";
 import { Collection, type LocalizationMap } from "discord.js";
 
 interface CategoryProperties {

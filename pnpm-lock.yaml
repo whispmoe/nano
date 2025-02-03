@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@discordjs/formatters':
+        specifier: ^0.6.0
+        version: 0.6.0
       discord.js:
         specifier: ^14.17.3
         version: 14.17.3

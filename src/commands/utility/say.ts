@@ -1,7 +1,7 @@
 import { Embed } from "@/classes/embed.js";
 import { Command } from "@/classes/command.js";
 
-import { locale, localeMap } from "@/utils/messages/locale.js";
+import { locale, localeMap } from "@/utils/locale.js";
 import { EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
 
 const say = new Command("say", {

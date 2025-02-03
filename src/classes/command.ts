@@ -1,4 +1,4 @@
-import { locale, localeMap, type LocaleKey } from "@/utils/messages/locale.js";
+import { locale, localeMap, type LocaleKey } from "@/utils/locale.js";
 
 import {
     InteractionContextType,

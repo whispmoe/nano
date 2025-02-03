@@ -2,7 +2,7 @@ import { locale } from "@/utils/messages/locale.js";
 import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 import { buildCommand } from "@/utils/builders/buildCommand.js";
 
-import { MessageFlags, PermissionFlagsBits } from "discord.js";
+import { EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
 
 export default buildCommand(
     {
@@ -24,17 +24,21 @@ export default buildCommand(
             locale("commands.say.options.message.name")
         );
 
-        const embedError = buildEmbed(interaction, {
-            style: "error",
-            description: locale("say.invalidMessage", interaction.guildLocale)
-        });
+        const embeds: Record<string, EmbedBuilder> = {
+            error: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "say.invalidMessage",
+                    interaction.guildLocale
+                )
+            })
+        };
 
-        if (message) {
-            interaction.reply(message);
-        } else
-            interaction.reply({
+        interaction.reply(
+            message ?? {
                 flags: MessageFlags.Ephemeral,
-                embeds: [embedError]
-            });
+                embeds: [embeds.error]
+            }
+        );
     }
 );

@@ -1,10 +1,11 @@
 import config from "@/config.js";
-import { delay } from "@/utils/delay.js";
+import { f } from "@/utils/messages/formatting.js";
 import { locale } from "@/utils/messages/locale.js";
-
-import prettyMilliseconds from "pretty-ms";
 import { buildEmbed } from "@/utils/builders/buildEmbed.js";
 import { buildCommand } from "@/utils/builders/buildCommand.js";
+
+import prettyMilliseconds from "pretty-ms";
+import { EmbedBuilder, resolveColor } from "discord.js";
 
 export default buildCommand(
     {
@@ -13,84 +14,106 @@ export default buildCommand(
     },
 
     async interaction => {
-        const embedPinging = buildEmbed(interaction, {
-            style: "default",
-            title:
-                `${config.emojis.hakaseButton} ` +
-                locale("status.pinging", interaction.guildLocale)
-        }).setImage(config.img.walking);
+        const embeds: Record<string, EmbedBuilder> = {
+            pinging: buildEmbed(interaction, {
+                style: "default",
+                image: { url: config.img.walking },
 
-        const embedError = buildEmbed(interaction, {
-            style: "error",
-            description: locale("status.latency.error", interaction.guildLocale)
+                title:
+                    `${config.emojis.hakaseButton} ` +
+                    locale("status.pinging", interaction.guildLocale),
+
+                description: f.small(
+                    locale("status.wait", interaction.guildLocale)
+                )
+            }),
+
+            error: buildEmbed(interaction, {
+                style: "error",
+                description: locale(
+                    "status.latency.error",
+                    interaction.guildLocale
+                )
+            })
+        };
+
+        const response = await interaction.reply({
+            embeds: [embeds.pinging]
         });
 
-        const response = await interaction.reply({ embeds: [embedPinging] });
         const roundtripLatency =
             response.createdTimestamp - interaction.createdTimestamp;
 
-        const wsTimeout = 10000;
-        const wsTimestamp = Date.now();
-        let wsHeartbeat = interaction.client.ws.ping;
-
-        while (wsHeartbeat < 1) {
-            if (Date.now() - wsTimestamp > wsTimeout)
-                return response.edit({ embeds: [embedError] });
-
-            await delay(100);
-            wsHeartbeat = interaction.client.ws.ping;
-        }
-
+        const wsHeartbeat = interaction.client.ws.ping;
         const uptimeSeconds = process.uptime();
         const uptime = prettyMilliseconds(uptimeSeconds * 1000, {
             secondsDecimalDigits: 0
         });
 
-        const statusEmoji = (n: number) => {
-            if (n < 200) return config.emojis.dotGreen;
-            else if (n >= 200 && n < 300) return config.emojis.dotOrange;
-            else return config.emojis.dotRed;
-        };
+        const getAvg = (n: number) => ({
+            emoji:
+                n < 200
+                    ? config.emojis.dotGreen
+                    : n < 300
+                      ? config.emojis.dotOrange
+                      : config.emojis.dotRed,
 
-        const embedColor = (n: number) => {
-            if (n < 200) return config.embedColors.success;
-            else if (n >= 200 && n < 300) return config.embedColors.warning;
-            else return config.embedColors.error;
-        };
+            color:
+                n < 200
+                    ? config.embedColors.success
+                    : n < 300
+                      ? config.embedColors.warning
+                      : config.embedColors.error
+        });
 
-        const averageLatency = (roundtripLatency + wsHeartbeat) / 2;
-        const embedStatus = buildEmbed(interaction, {
+        embeds.status = buildEmbed(interaction, {
             style: "default",
+            image: { url: config.img.sleepy },
+
             title:
                 `${config.emojis.checkmark} ` +
                 locale("status.title", interaction.guildLocale),
 
+            color: resolveColor(
+                getAvg((roundtripLatency + wsHeartbeat) / 2).color
+            ),
+
             fields: [
                 {
+                    inline: true,
                     name: locale(
                         "status.latency.roundtrip",
                         interaction.guildLocale
                     ),
-                    value: `${statusEmoji(roundtripLatency)} ${roundtripLatency}ms`,
-                    inline: true
+
+                    value:
+                        `${getAvg(roundtripLatency).emoji} ` +
+                        `${roundtripLatency}ms`
                 },
                 {
+                    inline: true,
                     name: locale("status.latency.ws", interaction.guildLocale),
-                    value: `${statusEmoji(wsHeartbeat)} ${wsHeartbeat}ms`,
-                    inline: true
+                    value: `${getAvg(wsHeartbeat).emoji} ${wsHeartbeat}ms`
                 },
                 {
                     name: locale(
                         "status.uptime.title",
                         interaction.guildLocale
                     ),
-                    value: `${config.emojis.clock} ${locale("status.uptime.value", interaction.guildLocale, uptime)}`
+
+                    value:
+                        `${config.emojis.clock} ` +
+                        `${locale(
+                            "status.uptime.value",
+                            interaction.guildLocale,
+                            uptime
+                        )}`
                 }
             ]
-        })
-            .setImage(config.img.sleepy)
-            .setColor(embedColor(averageLatency));
+        });
 
-        response.edit({ embeds: [embedStatus] });
+        response.edit({
+            embeds: [embeds.status]
+        });
     }
 );

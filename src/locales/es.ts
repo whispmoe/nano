@@ -15,9 +15,13 @@ export const es: LocaleObject = {
         error: {
             default: "Algo ha salido mal...",
             unknown: "Un error desconocido ha ocurrido!",
+            interactionFailed: "Ha ocurrido un error durante la interacción!",
 
             insufficientPermissions:
                 "No tienes suficientes permisos para usar este comando!",
+
+            commandNotFound: command =>
+                `No se ha encontrado el commando ${f.code(`/${command}`)}!`,
 
             scope: {
                 guild: "Este comando solo puede ser usando en un servidor!",
@@ -100,6 +104,7 @@ export const es: LocaleObject = {
     status: {
         title: "Estado del bot",
         pinging: "Enviando ping...",
+        wait: "Por favor espera...",
 
         latency: {
             ws: "Latencia del WebSocket",

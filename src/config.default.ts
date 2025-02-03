@@ -56,6 +56,7 @@ const config: NanoConfig = {
     },
 
     emojis: {
+        nanoKey: "<a:NanoKey:1336011460220031088>",
         cd: "<:cd:1335095283566252062>",
         bubble: "<a:bubble:1334331685608624268>",
         plus: "<:plus:1334331680613335040>",

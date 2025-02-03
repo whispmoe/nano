@@ -1,3 +1,6 @@
+# Ignore commands that start with an underscore
+src/commands/**/_*
+
 # Bot config
 src/config.ts
 

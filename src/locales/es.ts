@@ -114,7 +114,6 @@ export const es: LocaleObject = {
             title: (name: string) => `Información de ${name}`,
             globalName: "Nombre global",
             username: "Nombre de usuario",
-            badges: "Insignias",
             date: "Fecha de creación",
             id: "ID del usuario"
         }

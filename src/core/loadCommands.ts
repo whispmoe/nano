@@ -35,7 +35,7 @@ export const loadCommands = async (client: Client) => {
         for (const commandFile of commandFiles) {
             if (
                 !commandFile.endsWith(".ts") ||
-                !commandFile.startsWith("_") ||
+                commandFile.startsWith("_") ||
                 commandFile.includes("index")
             )
                 continue;

@@ -13,9 +13,10 @@ export class Embed {
         interaction: ChatInputCommandInteraction,
         prop: EmbedData = {}
     ) {
+        const timestamp = prop.timestamp ?? new Date();
         const footer = prop.footer ?? Embed.defaultFooter(interaction);
         const color = prop.color ?? resolveColor(config.colors.default);
-        this.data = new EmbedBuilder({ ...prop, color, footer });
+        this.data = new EmbedBuilder({ ...prop, color, footer, timestamp });
     }
 
     data: EmbedBuilder;

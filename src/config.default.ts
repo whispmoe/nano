@@ -56,17 +56,21 @@ const config: NanoConfig = {
     },
 
     emojis: {
-        nanoKey: "<a:NanoKey:1336011460220031088>",
-        cd: "<:cd:1335095283566252062>",
-        bubble: "<a:bubble:1334331685608624268>",
-        plus: "<:plus:1334331680613335040>",
+        /* ------------- status ------------- */
         dotGreen: "<:dot_green:1334246736117501993>",
         dotOrange: "<:dot_orange:1334246730233024604>",
         dotRed: "<:dot_red:1334246740425183273>",
-        checkmark: "<:checkmark:1334246752349458473>",
+        /* ----------- categories ----------- */
+        bubble: "<a:bubble:1334331685608624268>",
+        cd: "<:cd:1335095283566252062>",
+        plus: "<:plus:1334331680613335040>",
+        /* -------------- icons ------------- */
         clock: "<:clock:1334246743520317502>",
-        hakaseButton: "<a:hakase_button:1333258749275799663>",
-        kamakura: "<:kamakura:1333251577468948501>"
+        checkmark: "<:checkmark:1334246752349458473>",
+        /* ------------ reactions ----------- */
+        nanoKey: "<a:NanoKey:1336011460220031088>",
+        kamakura: "<:kamakura:1333251577468948501>",
+        hakaseButton: "<a:hakase_button:1333258749275799663>"
     },
 
     img: {

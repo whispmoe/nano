@@ -6,7 +6,7 @@ import { Embed } from "@/classes/embed.js";
 import { locale } from "@/utils/locale.js";
 
 import prettyMilliseconds from "pretty-ms";
-import { EmbedBuilder, resolveColor } from "discord.js";
+import { bold, EmbedBuilder, resolveColor } from "discord.js";
 
 const status = new Command("status", {
     description: "commands.status.description"
@@ -80,7 +80,16 @@ status.execute = async interaction => {
             {
                 inline: true,
                 name: locale("status.latency.ws", interaction.guildLocale),
-                value: `${getAvg(wsHeartbeat).emoji} ${wsHeartbeat}ms`
+                value:
+                    wsHeartbeat > 0
+                        ? `${getAvg(wsHeartbeat).emoji} ${wsHeartbeat}ms`
+                        : `${config.emojis.dotOrange} ` +
+                          bold(
+                              locale(
+                                  "common.notAvailable",
+                                  interaction.guildLocale
+                              )
+                          )
             },
             {
                 name: locale("status.uptime.title", interaction.guildLocale),

@@ -33,7 +33,11 @@ export const loadCommands = async (client: Client) => {
             warn(`category ${pc.bold(pc.cyan(categoryFolder))} not found`);
 
         for (const commandFile of commandFiles) {
-            if (!commandFile.endsWith(".ts") || commandFile.includes("index"))
+            if (
+                !commandFile.endsWith(".ts") ||
+                commandFile.startsWith("_") ||
+                commandFile.includes("index")
+            )
                 continue;
 
             const commandPath = path.join(categoryPath, commandFile);

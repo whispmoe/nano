@@ -1,32 +1,33 @@
-import type { LocaleObject } from "@/utils/messages/locale.js";
-import { f } from "@/utils/messages/formatting.js";
+import type { LocaleObject } from "@/utils/locale.js";
+import { bold, inlineCode } from "discord.js";
 
 export const es: LocaleObject = {
     bot: {
         shortName: "Nano",
         fullName: "Nano Shinonome",
         description:
-            "Soy una robot que busca ayudar y brindar diversion a tu servidor de Discord!"
+            "Soy una robot que busca ayudar y brindar diversión a tu servidor de Discord!"
     },
 
     common: {
         servers: "Servidores",
         expired: "Este comando ha expirado",
+        notAvailable: "No disponible",
+
         error: {
             default: "Algo ha salido mal...",
             unknown: "Un error desconocido ha ocurrido!",
             interactionFailed: "Ha ocurrido un error durante la interacción!",
-            unknown: "Un error desconocido ha ocurrido!",
 
             insufficientPermissions:
                 "No tienes suficientes permisos para usar este comando!",
 
-            commandNotFound: command =>
-                `No se ha encontrado el commando ${f.code(`/${command}`)}!`,
+            commandNotFound: (command: string) =>
+                `No se ha encontrado el comando ${inlineCode(`/${command}`)}!`,
 
             scope: {
-                guild: "Este comando solo puede ser usando en un servidor!",
-                dm: "Este comando solo puede ser usando en un DM!"
+                guild: "Este comando solo puede ser usado en un servidor!",
+                dm: "Este comando solo puede ser usado en un DM!"
             }
         }
     },
@@ -39,12 +40,12 @@ export const es: LocaleObject = {
 
         about: {
             name: "Acerca de",
-            description: "Obtén mas información sobre mi"
+            description: "Obtén más información sobre mí"
         },
 
         music: {
             name: "Música",
-            description: "Permite a nano reproducir música por ti"
+            description: "Permite a Nano reproducir música por ti"
         }
     },
 
@@ -54,7 +55,7 @@ export const es: LocaleObject = {
             options: {
                 message: {
                     name: "mensaje",
-                    description: "El mensaje que quieres que nano repita por ti"
+                    description: "El mensaje que quieres que Nano repita por ti"
                 }
             }
         },
@@ -68,12 +69,12 @@ export const es: LocaleObject = {
         join: { description: "Pide a Nano unirse a tu canal de voz" },
 
         play: {
-            description: "Reproduce una canción de alguna fuente valida",
+            description: "Reproduce una canción de alguna fuente válida",
             options: {
                 song: {
                     name: "canción",
                     description:
-                        "El nombre de la canción que quieres reproducir o un enlace valido"
+                        "El nombre de la canción que quieres reproducir o un enlace válido"
                 }
             }
         },
@@ -86,14 +87,31 @@ export const es: LocaleObject = {
                     description: "El nombre de la canción que quieres buscar"
                 }
             }
+        },
+
+        user: {
+            description: "Obtén información sobre un usuario",
+
+            subcommands: {
+                avatar: { description: "Obtén el avatar de un usuario" }
+            },
+
+            options: {
+                user: {
+                    name: "usuario",
+                    description:
+                        "El usuario del cual deseas obtener información"
+                }
+            }
         }
     },
 
-    say: { invalidMessage: "El mensaje especificado no es valido" },
+    say: { invalidMessage: "El mensaje especificado no es válido" },
 
     help: {
-        intro: name => `Hola, soy ${f.bold(`${name}!`)} ${es.bot.description}`,
-        usage: "Para obtener ayuda, selecciona una categoría a traves del menu",
+        intro: (name: string) =>
+            `Hola, soy ${bold(`${name}!`)} ${es.bot.description}`,
+        usage: "Para obtener ayuda, selecciona una categoría a través del menú",
 
         category: {
             select: "Seleccionar una categoría",
@@ -103,7 +121,7 @@ export const es: LocaleObject = {
     },
 
     status: {
-        title: "Estado del bot",
+        title: "Estado de Nano",
         pinging: "Enviando ping...",
         wait: "Por favor espera...",
 
@@ -114,16 +132,27 @@ export const es: LocaleObject = {
         },
 
         uptime: {
-            title: "Tiempo en linea",
-            value: uptime => `Nano ha estado despierta por ${f.bold(uptime)}`
+            title: "Tiempo en línea",
+            value: (uptime: string) =>
+                `Nano ha estado despierta por ${bold(uptime)}`
+        }
+    },
+
+    user: {
+        info: {
+            title: (name: string) => `Información de ${name}`,
+            globalName: "Nombre global",
+            username: "Nombre de usuario",
+            date: "Fecha de creación",
+            id: "ID del usuario"
         }
     },
 
     voice: {
         couldNotJoin: "No me he podido unir a tu canal de voz!",
-        notInVoice: "No estas dentro de un canal de voz!",
+        notInVoice: "No estás dentro de un canal de voz!",
         alreadyInVoice: "Ya estoy conectada a un canal de voz!",
-        joined: channel => `Unida al canal ${channel} con éxito!`
+        joined: (channel: string) => `Unida al canal ${channel} con éxito!`
     },
 
     music: {
@@ -132,12 +161,12 @@ export const es: LocaleObject = {
         paused: "Pausado",
 
         error: {
-            noSong: "No se ha proporcionado ninguna canción o enlace valido!",
+            noSong: "No se ha proporcionado ninguna canción o enlace válido!",
             unknown:
                 "Ha ocurrido un error desconocido durante la reproducción!",
 
             couldNotPlay:
-                "No pude reproducir esa canción! Que tal probar con alguna otra...?"
+                "No pude reproducir esa canción! Qué tal probar con alguna otra...?"
         },
 
         search: {

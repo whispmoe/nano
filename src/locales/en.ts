@@ -1,4 +1,4 @@
-import { f } from "@/utils/messages/formatting.js";
+import { bold, inlineCode } from "discord.js";
 
 export const en = {
     bot: {
@@ -10,6 +10,7 @@ export const en = {
     common: {
         servers: "Servers",
         expired: "This command has expired",
+        notAvailable: "Not available",
 
         error: {
             default: "Something went wrong...",
@@ -20,7 +21,7 @@ export const en = {
                 "You don't have enough permissions to use this command!",
 
             commandNotFound: (command: string) =>
-                `Command ${f.code(`/${command}`)} was not found!`,
+                `Command ${inlineCode(`/${command}`)} was not found!`,
 
             scope: {
                 guild: "This command can only be used in a server!",
@@ -42,7 +43,7 @@ export const en = {
 
         music: {
             name: "Music",
-            description: "Let nano play music for you"
+            description: "Let Nano play music for you"
         }
     },
 
@@ -57,7 +58,9 @@ export const en = {
             }
         },
 
-        status: { description: "Returns the bot status to ensure its running" },
+        status: {
+            description: "Returns the bot status to ensure it's running"
+        },
         help: { description: "Get information about the available commands" },
         join: { description: "Ask Nano to join your current voice channel" },
 
@@ -80,6 +83,21 @@ export const en = {
                     description: "Name of the song you want to search for"
                 }
             }
+        },
+
+        user: {
+            description: "Get information about a user",
+
+            subcommands: {
+                avatar: { description: "Get the avatar from a user" }
+            },
+
+            options: {
+                user: {
+                    name: "user",
+                    description: "The user you want to get information from"
+                }
+            }
         }
     },
 
@@ -87,7 +105,7 @@ export const en = {
 
     help: {
         intro: (name: string) =>
-            `Hello, I'm ${f.bold(`${name}!`)} ${en.bot.description}`,
+            `Hello, I'm ${bold(`${name}!`)} ${en.bot.description}`,
 
         usage: "To get started, select a command category from the menu below",
 
@@ -99,7 +117,7 @@ export const en = {
     },
 
     status: {
-        title: "Status",
+        title: "Nano Status",
         pinging: "Pinging...",
         wait: "Please wait...",
 
@@ -111,8 +129,17 @@ export const en = {
 
         uptime: {
             title: "Uptime",
-            value: (uptime: string) =>
-                `Nano has been awake for ${f.bold(uptime)}`
+            value: (uptime: string) => `Nano has been awake for ${bold(uptime)}`
+        }
+    },
+
+    user: {
+        info: {
+            title: (name: string) => `${name}'s info`,
+            globalName: "Global Name",
+            username: "Username",
+            date: "Creation date",
+            id: "User ID"
         }
     },
 

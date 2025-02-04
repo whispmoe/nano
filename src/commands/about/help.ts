@@ -3,18 +3,20 @@ import config from "@/config.js";
 import { Embed } from "@/classes/embed.js";
 import { Command } from "@/classes/command.js";
 
-import { f } from "@/utils/messages/formatting.js";
-import { locale } from "@/utils/messages/locale.js";
+import { locale } from "@/utils/locale.js";
 import { getCommandID } from "@/utils/getCommandID.js";
 
 import {
     ActionRowBuilder,
+    chatInputApplicationCommandMention,
     ChatInputCommandInteraction,
     ComponentType,
     EmbedBuilder,
+    inlineCode,
     Locale,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
+    subtext,
     type APIEmbedField
 } from "discord.js";
 
@@ -33,7 +35,7 @@ help.execute = async interaction => {
                 "help.intro",
                 interaction.guildLocale,
                 locale("bot.fullName", interaction.guildLocale)
-            )}\n${f.small(locale("help.usage", interaction.guildLocale))}`
+            )}\n${subtext(locale("help.usage", interaction.guildLocale))}`
         }).data.setThumbnail(interaction.client.user.avatarURL())
     };
 
@@ -125,7 +127,7 @@ help.execute = async interaction => {
             );
 
             currentEmbed = categoryHelp.setDescription(
-                f.small(locale("common.expired", interaction.guildLocale))
+                subtext(locale("common.expired", interaction.guildLocale))
             );
         } else {
             currentEmbed = embeds.defaultHelp.setDescription(
@@ -133,7 +135,7 @@ help.execute = async interaction => {
                     "help.intro",
                     interaction.guildLocale,
                     locale("bot.fullName", interaction.guildLocale)
-                )}\n${f.small(locale("common.expired", interaction.guildLocale))}`
+                )}\n${subtext(locale("common.expired", interaction.guildLocale))}`
             );
         }
 
@@ -168,8 +170,11 @@ const getCategoryHelp = async (
     const fields: APIEmbedField[] = await Promise.all(
         selectedCategory.commands.map(
             async (command): Promise<APIEmbedField> => {
-                const id = getCommandID(interaction, command.data.name);
-                const name = f.command(command.data.name, await id);
+                const id = await getCommandID(interaction, command.data.name);
+
+                const name = id
+                    ? chatInputApplicationCommandMention(command.data.name, id)
+                    : inlineCode(`/${command.data.name}`);
 
                 const descriptionLocalizations =
                     command.data.description_localizations;
@@ -189,7 +194,7 @@ const getCategoryHelp = async (
         title:
             `${selectedCategory.emoji} ` +
             getCategoryName(loc, selectedCategory),
-        description: f.small(getCategoryDescription(loc, selectedCategory))
+        description: subtext(getCategoryDescription(loc, selectedCategory))
     }).data.setThumbnail(interaction.client.user.avatarURL());
 };
 

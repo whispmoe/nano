@@ -12,6 +12,8 @@ export const es: LocaleObject = {
     common: {
         servers: "Servidores",
         expired: "Este comando ha expirado",
+        notAvailable: "No disponible",
+
         error: {
             default: "Algo ha salido mal...",
             interactionFailed: "Ha ocurrido un error durante la interacción!",
@@ -57,6 +59,22 @@ export const es: LocaleObject = {
 
         help: {
             description: "Obtén información sobre los comandos disponibles"
+        },
+
+        user: {
+            description: "Obtén la información sobre un usuario",
+
+            subcommands: {
+                avatar: { description: "Obtén el avatar de un usuario" }
+            },
+
+            options: {
+                user: {
+                    name: "usuario",
+                    description:
+                        "El usuario del cual deseas obtener información"
+                }
+            }
         }
     },
 
@@ -88,6 +106,17 @@ export const es: LocaleObject = {
             title: "Tiempo en linea",
             value: (uptime: string) =>
                 `Nano ha estado despierta por ${bold(uptime)}`
+        }
+    },
+
+    user: {
+        info: {
+            title: (name: string) => `Información de ${name}`,
+            globalName: "Nombre global",
+            username: "Nombre de usuario",
+            badges: "Insignias",
+            date: "Fecha de creación",
+            id: "ID del usuario"
         }
     }
 };

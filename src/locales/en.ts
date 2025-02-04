@@ -108,7 +108,9 @@ export const en = {
             title: (name: string) => `${name}'s info`,
             globalName: "Global Name",
             username: "Username",
-            date: "Creation date"
+            badges: "Badges",
+            date: "Creation date",
+            id: "User ID"
         }
     }
 };

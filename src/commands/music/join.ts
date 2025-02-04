@@ -1,8 +1,8 @@
+import { Command } from "@/classes/command.js";
+import { Embed } from "@/classes/embed.js";
+
 import { error } from "@/utils/logging.js";
-import { f } from "@/utils/messages/formatting.js";
-import { locale } from "@/utils/messages/locale.js";
-import { buildEmbed } from "@/utils/builders/buildEmbed.js";
-import { buildCommand } from "@/utils/builders/buildCommand.js";
+import { locale } from "@/utils/locale.js";
 
 import {
     joinVoiceChannel,
@@ -11,69 +11,85 @@ import {
 } from "@discordjs/voice";
 
 import {
+    bold,
+    channelMention,
     ChatInputCommandInteraction,
     InteractionContextType,
     MessageFlags,
+    type EmbedBuilder,
     type VoiceBasedChannel
 } from "discord.js";
 
-export default buildCommand(
-    {
-        name: "join",
-        description: "commands.join.description",
-        context: InteractionContextType.Guild
-    },
+const join = new Command("join", {
+    description: "commands.join.description",
+    context: InteractionContextType.Guild
+});
 
-    async interaction => {
-        const member = interaction.guild?.members.cache.find(
-            member => member.id === interaction.user.id
-        );
+join.execute = async interaction => {
+    const member = interaction.guild?.members.cache.find(
+        member => member.id === interaction.user.id
+    );
 
-        const vc = {
-            user: member?.voice.channel,
-            bot: interaction.guild?.members.me?.voice.channel
-        };
+    const vc = {
+        user: member?.voice.channel,
+        bot: interaction.guild?.members.me?.voice.channel
+    };
 
-        if (!vc.user)
-            return interaction.reply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    buildEmbed(interaction, {
-                        style: "error",
-                        description: locale(
-                            "voice.notInVoice",
-                            interaction.guildLocale
-                        )
-                    })
-                ]
-            });
+    const embeds: Record<string, EmbedBuilder> = {
+        notInVoice: new Embed(interaction, {
+            ...Embed.error,
+            description: locale("voice.notInVoice", interaction.guildLocale)
+        }).data,
 
-        if (vc.bot && vc.bot.guild.id === vc.user.guild.id) {
-            if (vc.bot.members.size && vc.bot.members.size <= 1)
-                return await joinVC(vc.user, interaction);
+        alreadyInVoice: new Embed(interaction, {
+            ...Embed.error,
+            description: locale("voice.alreadyInVoice", interaction.guildLocale)
+        }).data
+    };
 
-            return interaction.reply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    buildEmbed(interaction, {
-                        style: "error",
-                        description: locale(
-                            "voice.alreadyInVoice",
-                            interaction.guildLocale
-                        )
-                    })
-                ]
-            });
-        }
+    if (!vc.user)
+        return interaction.reply({
+            flags: MessageFlags.Ephemeral,
+            embeds: [embeds.notInVoice]
+        });
 
-        await joinVC(vc.user, interaction);
+    if (vc.bot && vc.bot.guild.id === vc.user.guild.id) {
+        if (vc.bot.members.size && vc.bot.members.size <= 1)
+            return await joinVC(vc.user, interaction);
+
+        return interaction.reply({
+            flags: MessageFlags.Ephemeral,
+            embeds: [embeds.alreadyInVoice]
+        });
     }
-);
+
+    await joinVC(vc.user, interaction);
+};
 
 export const joinVC = async (
     vc: VoiceBasedChannel,
     interaction?: ChatInputCommandInteraction
 ): Promise<VoiceConnection | undefined> => {
+    const embeds: Record<string, EmbedBuilder> = {};
+
+    if (interaction) {
+        embeds.success = new Embed(interaction, {
+            ...Embed.success,
+            description: bold(
+                locale(
+                    "voice.joined",
+                    interaction?.guildLocale,
+                    channelMention(vc.id)
+                )
+            )
+        }).data;
+
+        embeds.couldNotJoin = new Embed(interaction, {
+            ...Embed.error,
+            description: locale("voice.couldNotJoin", interaction.guildLocale)
+        }).data;
+    }
+
     try {
         const connection = joinVoiceChannel({
             channelId: vc.id,
@@ -86,19 +102,8 @@ export const joinVC = async (
                 interaction &&
                 newState.status === VoiceConnectionStatus.Ready
             ) {
-                const embedSuccess = buildEmbed(interaction, {
-                    style: "success",
-                    description: f.bold(
-                        locale(
-                            "voice.joined",
-                            interaction.guildLocale,
-                            f.channel(vc.id)
-                        )
-                    )
-                });
-
                 interaction.reply({
-                    embeds: [embedSuccess]
+                    embeds: [embeds.success]
                 });
             }
         });
@@ -107,17 +112,11 @@ export const joinVC = async (
     } catch (err) {
         error(err);
         if (interaction) {
-            const embedCouldNotJoin = buildEmbed(interaction, {
-                style: "error",
-                description: locale(
-                    "voice.couldNotJoin",
-                    interaction.guildLocale
-                )
-            });
-
             interaction.reply({
-                embeds: [embedCouldNotJoin]
+                embeds: [embeds.couldNotJoin]
             });
         }
     }
 };
+
+export default join;

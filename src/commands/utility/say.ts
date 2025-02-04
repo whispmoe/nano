@@ -6,7 +6,8 @@ import { EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
 
 const say = new Command("say", {
     description: "commands.say.description",
-    permissions: PermissionFlagsBits.Administrator
+    permissions: PermissionFlagsBits.Administrator,
+    private: true
 });
 
 say.data.addStringOption(option => {

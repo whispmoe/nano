@@ -10,6 +10,7 @@ export const en = {
     common: {
         servers: "Servers",
         expired: "This command has expired",
+        notAvailable: "Not available",
 
         error: {
             default: "Something went wrong...",
@@ -53,7 +54,21 @@ export const en = {
         },
 
         status: { description: "Returns the bot status to ensure its running" },
-        help: { description: "Get information about the available commands" }
+        help: { description: "Get information about the available commands" },
+        user: {
+            description: "Get information about an user",
+
+            subcommands: {
+                avatar: { description: "Get the avatar from a user" }
+            },
+
+            options: {
+                user: {
+                    name: "user",
+                    description: "The user you want to get information from"
+                }
+            }
+        }
     },
 
     say: { invalidMessage: "The specified message is not valid" },
@@ -85,6 +100,15 @@ export const en = {
         uptime: {
             title: "Uptime",
             value: (uptime: string) => `Nano has been awake for ${bold(uptime)}`
+        }
+    },
+
+    user: {
+        info: {
+            title: (name: string) => `${name}'s info`,
+            globalName: "Global Name",
+            username: "Username",
+            date: "Creation date"
         }
     }
 };

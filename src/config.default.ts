@@ -65,9 +65,7 @@ const config: NanoConfig = {
         dotRed: "<:dot_red:1334246740425183273>",
         checkmark: "<:checkmark:1334246752349458473>",
         clock: "<:clock:1334246743520317502>",
-        sakamotoFear: "<:sakamoto_fear:1333258784289849424>",
         hakaseButton: "<a:hakase_button:1333258749275799663>",
-        mogura: "<:mogura:1333251845874909294>",
         kamakura: "<:kamakura:1333251577468948501>"
     },
 

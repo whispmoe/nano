@@ -115,7 +115,8 @@ export const es: LocaleObject = {
             globalName: "Nombre global",
             username: "Nombre de usuario",
             date: "Fecha de creación",
-            id: "ID del usuario"
+            id: "ID del usuario",
+            roles: "Roles del servidor"
         }
     }
 };

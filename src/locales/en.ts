@@ -59,7 +59,8 @@ export const en = {
             description: "Get information about an user",
 
             subcommands: {
-                avatar: { description: "Get the avatar from a user" }
+                avatar: { description: "Get the avatar from a user" },
+                banner: { description: "Get the banner from a user" }
             },
 
             options: {
@@ -109,7 +110,20 @@ export const en = {
             globalName: "Global Name",
             username: "Username",
             date: "Creation date",
-            id: "User ID"
+            id: "User ID",
+            roles: "Server Roles"
+        },
+
+        avatar: {
+            title: (name: string) => `${name}'s avatar`,
+            notAvailable: (user: string) =>
+                `${bold(`${user} does not have an avatar!`)} ...maybe try with someone else?`
+        },
+
+        banner: {
+            title: (name: string) => `${name}'s banner`,
+            notAvailable: (user: string) =>
+                `${bold(`${user} does not have a banner!`)} ...maybe try with someone else?`
         }
     }
 };

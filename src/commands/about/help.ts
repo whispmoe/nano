@@ -139,6 +139,7 @@ const getCategoryHelp = async (
 
     const fields: APIEmbedField[] = [];
     const fieldPromises = selectedCategory.commands.map(async command => {
+        if (command.private) return;
         const id = await getCommandID(interaction, command.data.name);
         const subcommands = command.data.options.filter(
             command => command instanceof SlashCommandSubcommandBuilder

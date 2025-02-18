@@ -3,6 +3,7 @@ import { Command } from "@/classes/command.js";
 
 import { locale, localeMap } from "@/utils/locale.js";
 import { EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 const say = new Command("say", {
     description: "commands.say.description",
@@ -25,7 +26,7 @@ say.execute = async interaction => {
         locale("commands.say.options.message.name")
     );
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         error: new Embed(interaction, {
             ...Embed.error,
             description: locale(

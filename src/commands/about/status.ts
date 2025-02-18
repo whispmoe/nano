@@ -7,13 +7,14 @@ import { locale } from "@/utils/locale.js";
 
 import prettyMilliseconds from "pretty-ms";
 import { bold, EmbedBuilder, resolveColor } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 const status = new Command("status", {
     description: "commands.status.description"
 });
 
 status.execute = async interaction => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         pinging: new Embed(interaction, {
             image: { url: config.img.walking },
             title:

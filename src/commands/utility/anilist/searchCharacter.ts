@@ -21,11 +21,12 @@ import {
     type ChatInputCommandInteraction,
     type EmbedBuilder
 } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 export const searchCharacter = async (
     interaction: ChatInputCommandInteraction
 ) => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         invalidSearch: new Embed(interaction, {
             ...Embed.error,
             description: locale(

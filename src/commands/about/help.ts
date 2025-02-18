@@ -20,13 +20,14 @@ import {
     subtext,
     type APIEmbedField
 } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 const help = new Command("help", {
     description: "commands.help.description"
 });
 
 help.execute = async interaction => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         defaultHelp: new Embed(interaction, {
             title:
                 `${config.emojis.nanoKey} ` +

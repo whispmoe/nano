@@ -21,7 +21,7 @@ interactionCreate.execute = async (interaction: Interaction) => {
 
     const command = interaction.client.commands.get(interaction.commandName);
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         commandNotFound: new Embed(interaction, {
             ...Embed.error,
             description: locale(

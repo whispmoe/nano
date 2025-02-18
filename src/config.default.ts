@@ -87,7 +87,8 @@ const config: NanoConfig = {
     img: {
         sleepy: getImage("sleepy.gif"),
         nervous: getImage("nervous.gif"),
-        walking: getImage("walking.gif")
+        walking: getImage("walking.gif"),
+        smile: getImage("smile.gif")
     }
 };
 

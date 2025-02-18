@@ -39,8 +39,12 @@ help.execute = async interaction => {
                 interaction.guildLocale,
                 locale("bot.fullName", interaction.guildLocale)
             )}\n${subtext(locale("help.usage", interaction.guildLocale))}`
-        }).data.setThumbnail(interaction.client.user.avatarURL())
+        }).data
     };
+
+    embeds.defaultHelp
+        .setImage(config.img.smile)
+        .setThumbnail(interaction.client.user.avatarURL());
 
     let selectedCategory: string;
     const effectiveLocale = interaction.guildLocale ?? config.defaultLocale;

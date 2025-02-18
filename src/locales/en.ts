@@ -113,9 +113,16 @@ export const en = {
     },
 
     help: {
-        intro: `Hello, I'm ${bold(
-            "Nano Shinonome!"
-        )} I am a robot. I live with the doctor who created me`,
+        /*
+         * this line references the well known image:
+         * https://files.filebeam.xyz/fiJZik.png
+         *
+         * this joke only works on english, for now this string will be kept as
+         * is. other languages may include a more simple description about the
+         * bot, it can be freely translated as long it fits the bot. the spanish
+         * translation for this string can be used as a reference
+         */
+        intro: `Hello, I'm ${bold("Nano Shinonome!")} I am a robot. I live with the doctor who created me`,
         usage: "To get started, select a command category from the menu below",
         error: { categoryNotExists: "Selected category does not exist!" },
 

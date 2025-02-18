@@ -23,8 +23,7 @@ export interface NanoConfig {
         token: string;
 
         /**
-         * The client ID for the bot, it can be found at the [Discord Developer
-         * Portal](https://discord.com/developers/applications) under **Client
+         * The client ID for the bot, it can be found under **Client
          * information** at the **OAuth2** tab
          */
         clientID: string;

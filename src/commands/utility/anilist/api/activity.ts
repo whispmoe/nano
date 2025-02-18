@@ -5,6 +5,29 @@ import { error } from "@/utils/logging.js";
 
 import { gql, GraphQLClient } from "graphql-request";
 
+const QUERY = gql`
+    query GetLatestActivity($userID: Int!) {
+        Activity(userId: $userID, type: MEDIA_LIST, sort: ID_DESC) {
+            ... on ListActivity {
+                replyCount
+                likeCount
+                status
+                progress
+                siteUrl
+                createdAt
+
+                media {
+                    siteUrl
+
+                    title {
+                        romaji
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export type AniListListActivity = {
     createdAt: number;
     likeCount: number;
@@ -26,34 +49,11 @@ export type AniListListActivity = {
 export const getLatestActivity = async (
     userID: number
 ): Promise<AniListListActivity | null> => {
-    const query = gql`
-        query GetLatestActivity($userID: Int!) {
-            Activity(userId: $userID, type: MEDIA_LIST, sort: ID_DESC) {
-                ... on ListActivity {
-                    replyCount
-                    likeCount
-                    status
-                    progress
-                    siteUrl
-                    createdAt
-
-                    media {
-                        siteUrl
-
-                        title {
-                            romaji
-                        }
-                    }
-                }
-            }
-        }
-    `;
-
     try {
         const client = new GraphQLClient(config.api.anilist.url);
 
         const response = (
-            (await client.request(query, {
+            (await client.request(QUERY, {
                 userID
             })) as { Activity: AniListListActivity | null }
         ).Activity;

@@ -14,6 +14,7 @@ import {
     type EmbedBuilder,
     type User
 } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 const user = new Command("user", {
     description: "commands.user.description"
@@ -80,7 +81,7 @@ const getUserInfo = async (
 ) => {
     const reply = await interaction.deferReply();
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         userInfo: new Embed(interaction, {
             title:
                 `${config.emojis.kamakura} ` +
@@ -139,7 +140,7 @@ const getUserAvatar = async (
     const reply = await interaction.deferReply();
     const userAvatar = user.avatarURL({ size: 4096 }) ?? null;
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         userAvatar: new Embed(interaction, {
             title:
                 `${config.emojis.nanoKey} ` +
@@ -177,7 +178,7 @@ const getUserBanner = async (
     const reply = await interaction.deferReply();
     const userBanner = user.bannerURL({ size: 4096 }) ?? null;
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         userBanner: new Embed(interaction, {
             title:
                 `${config.emojis.nanoKey} ` +

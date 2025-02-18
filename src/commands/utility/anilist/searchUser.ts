@@ -34,11 +34,12 @@ import {
     type ChatInputCommandInteraction,
     type EmbedBuilder
 } from "discord.js";
+import type { EmbedsObject } from "@/types/embedsObject.js";
 
 // TODO: get user favorite characters count and the first 3 of them
 
 export const searchUser = async (interaction: ChatInputCommandInteraction) => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         invalidSearch: new Embed(interaction, {
             ...Embed.error,
             description: locale(

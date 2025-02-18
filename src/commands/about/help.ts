@@ -1,3 +1,5 @@
+import type { EmbedsObject } from "@/types/embedsObject.js";
+
 import config from "@/config.js";
 
 import { Embed } from "@/classes/embed.js";
@@ -26,7 +28,7 @@ const help = new Command("help", {
 });
 
 help.execute = async interaction => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         defaultHelp: new Embed(interaction, {
             title:
                 `${config.emojis.nanoKey} ` +

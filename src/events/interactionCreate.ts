@@ -1,3 +1,5 @@
+import type { EmbedsObject } from "@/types/embedsObject.js";
+
 import { Embed } from "@/classes/embed.js";
 import { Event } from "@/classes/event.js";
 
@@ -5,7 +7,6 @@ import { error } from "@/utils/logging.js";
 import { locale } from "@/utils/locale.js";
 
 import {
-    EmbedBuilder,
     Events,
     GuildMember,
     InteractionContextType,
@@ -21,7 +22,7 @@ interactionCreate.execute = async (interaction: Interaction) => {
 
     const command = interaction.client.commands.get(interaction.commandName);
 
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         commandNotFound: new Embed(interaction, {
             ...Embed.error,
             description: locale(

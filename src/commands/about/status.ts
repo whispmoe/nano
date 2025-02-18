@@ -1,3 +1,5 @@
+import type { EmbedsObject } from "@/types/embedsObject.js";
+
 import config from "@/config.js";
 
 import { Command } from "@/classes/command.js";
@@ -6,14 +8,14 @@ import { Embed } from "@/classes/embed.js";
 import { locale } from "@/utils/locale.js";
 
 import prettyMilliseconds from "pretty-ms";
-import { bold, EmbedBuilder, resolveColor } from "discord.js";
+import { bold, resolveColor } from "discord.js";
 
 const status = new Command("status", {
     description: "commands.status.description"
 });
 
 status.execute = async interaction => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         pinging: new Embed(interaction, {
             image: { url: config.img.walking },
             title:

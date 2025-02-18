@@ -1,3 +1,5 @@
+import type { EmbedsObject } from "@/types/embedsObject.js";
+
 import config from "@/config.js";
 
 import { Embed } from "@/classes/embed.js";
@@ -20,12 +22,11 @@ import {
     italic,
     subtext,
     type ChatInputCommandInteraction,
-    type ColorResolvable,
-    type EmbedBuilder
+    type ColorResolvable
 } from "discord.js";
 
 export const searchAnime = async (interaction: ChatInputCommandInteraction) => {
-    const embeds: Record<string, EmbedBuilder> = {
+    const embeds: EmbedsObject = {
         invalidSearch: new Embed(interaction, {
             ...Embed.error,
             description: locale(

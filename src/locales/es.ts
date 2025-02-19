@@ -38,6 +38,11 @@ export const es: LocaleObject = {
         utility: {
             name: "Utilidad",
             description: "Comandos que podrían ser útiles"
+        },
+
+        fun: {
+            name: "Diversion",
+            description: "Comandos para divertirte con Nano"
         }
     },
 
@@ -76,6 +81,8 @@ export const es: LocaleObject = {
                 }
             }
         },
+
+        cake: { description: "Obtén un rollo de pastel de Nano" },
 
         help: {
             description: "Obtén información sobre los comandos disponibles"
@@ -255,5 +262,7 @@ export const es: LocaleObject = {
                     `${media}, ${italic(`y ${count} mas...`)}`
             }
         }
-    }
+    },
+
+    cake: { eating: user => `${bold(user)} esta comiendo un rollo de pastel!` }
 };

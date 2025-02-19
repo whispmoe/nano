@@ -74,11 +74,13 @@ const config: NanoConfig = {
         cd: "<:cd:1335095283566252062>",
         plus: "<:plus:1334331680613335040>",
         /* -------------- icons ------------- */
+        checkmark: "<:checkmark:1334246752349458473>",
+        clock: "<:clock:1334246743520317502>",
         close: "<:close:1337183387789561896>",
         dot: "<:dot:1337170066302832691>",
-        clock: "<:clock:1334246743520317502>",
-        checkmark: "<:checkmark:1334246752349458473>",
+        star: "<:star:1337150034164191345>",
         /* ------------ reactions ----------- */
+
         nanoKey: "<a:NanoKey:1336011460220031088>",
         kamakura: "<:kamakura:1333251577468948501>",
         hakaseButton: "<a:hakase_button:1333258749275799663>"

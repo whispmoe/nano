@@ -37,6 +37,11 @@ export const en = {
         utility: {
             name: "Utility",
             description: "Commands that may be useful"
+        },
+
+        fun: {
+            name: "Fun",
+            description: "Commands to have fun with Nano"
         }
     },
 

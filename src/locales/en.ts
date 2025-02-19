@@ -81,6 +81,8 @@ export const en = {
             }
         },
 
+        cake: { description: "Get a roll cake from Nano" },
+
         help: { description: "Get information about available commands" },
 
         say: {
@@ -251,5 +253,7 @@ export const en = {
                     `${media}, ${italic(`and ${count} more...`)}`
             }
         }
-    }
+    },
+
+    cake: { eating: (user: string) => `${bold(user)} is eating a roll cake!` }
 };

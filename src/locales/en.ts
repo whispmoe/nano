@@ -50,7 +50,7 @@ export const en = {
             description: "Browse AniList",
             subcommands: {
                 anime: {
-                    description: "Search for an anime in AniList",
+                    description: "Search for an anime on AniList",
                     options: {
                         anime: {
                             name: "anime",
@@ -60,7 +60,7 @@ export const en = {
                 },
 
                 character: {
-                    description: "Search for a character in AniList",
+                    description: "Search for a character on AniList",
                     options: {
                         character: {
                             name: "character",
@@ -70,7 +70,7 @@ export const en = {
                 },
 
                 user: {
-                    description: "Search for a user in AniList",
+                    description: "Search for a user on AniList",
                     options: {
                         user: {
                             name: "user",

@@ -17,14 +17,16 @@ import {
 } from "discord.js";
 
 const user = new Command("user", {
-    description: "commands.user.description"
+    description: "general.noDescription"
 });
 
 user.data.addSubcommand(subcommand =>
     subcommand
         .setName("info")
-        .setDescription(locale("commands.user.description"))
-        .setDescriptionLocalizations(localeMap("commands.user.description"))
+        .setDescription(locale("commands.user.subcommands.info.description"))
+        .setDescriptionLocalizations(
+            localeMap("commands.user.subcommands.info.description")
+        )
         .addUserOption(option =>
             option
                 .setName(locale("commands.user.options.user.name"))

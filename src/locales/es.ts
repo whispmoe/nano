@@ -9,7 +9,8 @@ export const es: LocaleObject = {
 
     general: {
         servers: "Servidores",
-        notAvailable: "No disponible"
+        notAvailable: "No disponible",
+        noDescription: "Sin descripción"
     },
 
     error: {
@@ -48,7 +49,6 @@ export const es: LocaleObject = {
 
     commands: {
         anilist: {
-            description: "Navegar AniList",
             subcommands: {
                 anime: {
                     description: "Busca algún anime en AniList",
@@ -104,8 +104,8 @@ export const es: LocaleObject = {
         },
 
         user: {
-            description: "Obtén información sobre un usuario",
             subcommands: {
+                info: { description: "Obtén información sobre un usuario" },
                 avatar: { description: "Obtén el avatar de un usuario" },
                 banner: { description: "Obtén el banner de un usuario" }
             },

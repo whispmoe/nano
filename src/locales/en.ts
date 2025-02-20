@@ -8,7 +8,8 @@ export const en = {
 
     general: {
         servers: "Servers",
-        notAvailable: "Not available"
+        notAvailable: "Not available",
+        noDescription: "No description"
     },
 
     error: {
@@ -47,7 +48,6 @@ export const en = {
 
     commands: {
         anilist: {
-            description: "Browse AniList",
             subcommands: {
                 anime: {
                     description: "Search for an anime on AniList",
@@ -82,7 +82,6 @@ export const en = {
         },
 
         cake: { description: "Get a roll cake from Nano" },
-
         help: { description: "Get information about available commands" },
 
         say: {
@@ -98,8 +97,8 @@ export const en = {
         status: { description: "Ensure the bot is running properly" },
 
         user: {
-            description: "Get user information",
             subcommands: {
+                info: { description: "Get information about a user" },
                 avatar: { description: "Get the avatar from a user" },
                 banner: { description: "Get the banner from a user" }
             },

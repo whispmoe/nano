@@ -6,7 +6,7 @@ import { searchAnime } from "@/commands/utility/anilist/searchAnime.js";
 import { searchCharacter } from "@/commands/utility/anilist/searchCharacter.js";
 
 const anilist = new Command("anilist", {
-    description: "commands.anilist.description"
+    description: "general.noDescription"
 });
 
 anilist.data.addSubcommand(subcommand =>

@@ -127,7 +127,7 @@ export const es: LocaleObject = {
     },
 
     help: {
-        intro: `Hola, soy ${bold("Nano Shinonome!")} Soy una robot que busca ser de ayuda y brindar diversion a tu servidor de Discord!`,
+        intro: `Hola, soy ${bold("Nano Shinonome!")} Soy una robot que busca ser de ayuda y brindar diversion a tu servidor de Discord`,
         usage: "Para obtener ayuda, selecciona una categoría del menu abajo",
         error: { categoryNotExists: "La categoria seleccionada no existe!" },
 

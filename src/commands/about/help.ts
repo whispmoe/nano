@@ -10,6 +10,7 @@ import { getCommandID } from "@/utils/getCommandID.js";
 
 import {
     ActionRowBuilder,
+    blockQuote,
     chatInputApplicationCommandMention,
     ChatInputCommandInteraction,
     ComponentType,
@@ -38,7 +39,7 @@ help.execute = async interaction => {
                 "help.intro",
                 interaction.guildLocale,
                 locale("bot.fullName", interaction.guildLocale)
-            )}\n${subtext(locale("help.usage", interaction.guildLocale))}`
+            )}\n${blockQuote(subtext(locale("help.usage", interaction.guildLocale)))}`
         }).data
     };
 
@@ -57,15 +58,6 @@ help.execute = async interaction => {
 
     interaction.client.categories.forEach(category => {
         if (category.commands.size <= 0) return;
-        embeds.defaultHelp.addFields({
-            name:
-                `${category.emoji} ` +
-                getCategoryName(effectiveLocale, category),
-
-            value: getCategoryDescription(effectiveLocale, category),
-            inline: true
-        });
-
         categoryMenu.addOptions(
             new StringSelectMenuOptionBuilder()
                 .setValue(category.id)
